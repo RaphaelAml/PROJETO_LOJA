@@ -14,7 +14,7 @@ import java.util.List;
 @SequenceGenerator(name = "seq_usuario", sequenceName = "seq_usuario", allocationSize = 1, initialValue = 1)
 public class Usuario implements UserDetails {
 
-    private static final long serialVersionUID =1L;
+    private static final long serialVersionUID = 1L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq_usuario")
@@ -28,12 +28,12 @@ public class Usuario implements UserDetails {
     private Date dataAtualSenha;
 
     @OneToMany(fetch = FetchType.LAZY)
-    @JoinTable(name = "usuarios_acesso", uniqueConstraints = @UniqueConstraint(columnNames = {"usuarios_id", "acesso_id"} ,
-    name = "unique_acesso_user"),
-    joinColumns = @JoinColumn(name = "usuario_id", referencedColumnName = "id", table = "usuario",
-            unique = false, foreignKey = @ForeignKey(name = "usuario_fk", value = ConstraintMode.CONSTRAINT)),
-    inverseJoinColumns = @JoinColumn(name = "acesso_id", unique = false, referencedColumnName = "id", table = "acesso",
-    foreignKey = @ForeignKey(name = "acesso_fk", value = ConstraintMode.CONSTRAINT)))
+    @JoinTable(name = "usuarios_acesso", uniqueConstraints = @UniqueConstraint(columnNames = {"usuarios_id", "acesso_id"},
+            name = "unique_acesso_user"),
+            joinColumns = @JoinColumn(name = "usuario_id", referencedColumnName = "id", table = "usuario",
+                    unique = false, foreignKey = @ForeignKey(name = "usuario_fk", value = ConstraintMode.CONSTRAINT)),
+            inverseJoinColumns = @JoinColumn(name = "acesso_id", unique = false, referencedColumnName = "id", table = "acesso",
+                    foreignKey = @ForeignKey(name = "acesso_fk", value = ConstraintMode.CONSTRAINT)))
     private List<Acesso> acessos;
 
     @Override
