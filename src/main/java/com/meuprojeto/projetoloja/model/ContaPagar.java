@@ -1,7 +1,6 @@
 package com.meuprojeto.projetoloja.model;
 
-import enums.StatusContaPagar;
-import enums.StatusContaReceber;
+import com.meuprojeto.projetoloja.enums.StatusContaPagar;
 import jakarta.persistence.*;
 
 import java.io.Serializable;

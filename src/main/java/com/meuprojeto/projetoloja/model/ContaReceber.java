@@ -1,7 +1,6 @@
 package com.meuprojeto.projetoloja.model;
 
-import enums.StatusContaReceber;
-import enums.TipoEndereco;
+import com.meuprojeto.projetoloja.enums.StatusContaReceber;
 import jakarta.persistence.*;
 
 import java.io.Serializable;

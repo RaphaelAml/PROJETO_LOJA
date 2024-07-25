@@ -1,15 +1,14 @@
-package enums;
+package com.meuprojeto.projetoloja.enums;
 
-public enum StatusContaReceber {
+public enum TipoEndereco {
 
-    COBRANCA("Pagar"),
-    VENCIDA("Vencida"),
-    ABERTA("Aberta"),
-    QUITADA("Quitada");
+    //Valores
+    COBRANCA("Cobrança"),
+    ENTREGA("Entrega");
 
     private String descricao;
 
-    private StatusContaReceber(String descricao) {
+    TipoEndereco(String descricao) {
         this.descricao = descricao;
     }
 

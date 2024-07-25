@@ -1,6 +1,6 @@
 package com.meuprojeto.projetoloja.model;
 
-import enums.TipoEndereco;
+import com.meuprojeto.projetoloja.enums.TipoEndereco;
 import jakarta.persistence.*;
 
 import java.io.Serializable;

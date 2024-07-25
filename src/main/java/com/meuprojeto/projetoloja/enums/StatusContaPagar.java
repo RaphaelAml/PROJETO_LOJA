@@ -1,4 +1,4 @@
-package enums;
+package com.meuprojeto.projetoloja.enums;
 
 public enum StatusContaPagar {
 
