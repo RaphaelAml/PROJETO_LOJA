@@ -1,5 +1,6 @@
 package com.meuprojeto.projetoloja;
 
+import com.meuprojeto.projetoloja.controller.AcessoController;
 import com.meuprojeto.projetoloja.model.Acesso;
 import com.meuprojeto.projetoloja.repository.AcessoRepository;
 import com.meuprojeto.projetoloja.service.AcessoService;
@@ -10,11 +11,14 @@ import org.springframework.boot.test.context.SpringBootTest;
 @SpringBootTest(classes = ProjetoLojaApplication.class)
 public class ProjetoLojaApplicationTests {
 
-    @Autowired
-    private AcessoService acessoService;
+    //@Autowired
+    //private AcessoService acessoService;
 
     //@Autowired
     //private AcessoRepository acessoRepository;
+
+    @Autowired
+    private AcessoController acessoController;
 
     @Test
     void testCadastraAcesso() {
@@ -23,7 +27,7 @@ public class ProjetoLojaApplicationTests {
 
         acesso.setDescricao("ROLE_ADMIN");
 
-        acessoService.save(acesso);
+        acessoController.salvarAcesso(acesso);
     }
 
 }
