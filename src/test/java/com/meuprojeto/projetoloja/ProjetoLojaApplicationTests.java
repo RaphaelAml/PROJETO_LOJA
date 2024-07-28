@@ -1,9 +1,7 @@
 package com.meuprojeto.projetoloja;
 
-import com.meuprojeto.projetoloja.controller.AcessoController;
-import com.meuprojeto.projetoloja.model.Acesso;
-import com.meuprojeto.projetoloja.repository.AcessoRepository;
-import com.meuprojeto.projetoloja.service.AcessoService;
+import controller.AcessoController;
+import model.Acesso;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -17,7 +15,7 @@ public class ProjetoLojaApplicationTests {
     //@Autowired
     //private AcessoRepository acessoRepository;
 
-    @Autowired
+
     private AcessoController acessoController;
 
     @Test
