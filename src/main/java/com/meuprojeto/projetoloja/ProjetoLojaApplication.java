@@ -8,9 +8,9 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 @SpringBootApplication
-@EntityScan(basePackages = "model")
+@EntityScan(basePackages = "com.meuprojeto.model")
 @ComponentScan(basePackages = {"com.*"})
-@EnableJpaRepositories({"repository"})
+@EnableJpaRepositories({"com.meuprojeto.repository"})
 @EnableTransactionManagement
 public class ProjetoLojaApplication {
 
