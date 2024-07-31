@@ -1,26 +1,28 @@
 package com.meuprojeto.security;
 
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
-import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-
-import javax.servlet.http.HttpSession;
-import javax.servlet.http.HttpSessionListener;
-
+import org.springframework.security.web.SecurityFilterChain;
 
 @Configuration
 @EnableWebSecurity
-@EnableGlobalMethodSecurity(prePostEnabled = true, securedEnabled = true)
-public class WebConfigSecurity extends WebSecurityConfigurerAdapter implements HttpSessionListener {
+@EnableMethodSecurity(prePostEnabled = true, securedEnabled = true)
+public class WebConfigSecurity {
 
-    @Override
-    public void configure(WebSecurity web) throws Exception {
-        web.ignoring()
-                .antMatchers(HttpMethod.GET, "/salvarAcesso")
-                .antMatchers(HttpMethod.POST, "/salvarAcesso");
+    @Bean
+    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+        http
+                .authorizeHttpRequests(authz -> authz
+                        .requestMatchers(HttpMethod.GET, "/salvarAcesso").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/salvarAcesso").permitAll()
+                        .anyRequest().authenticated()
+                )
+                .csrf(csrf -> csrf.disable()); // Desabilitando CSRF para facilitar os testes
+
+        return http.build();
     }
 }

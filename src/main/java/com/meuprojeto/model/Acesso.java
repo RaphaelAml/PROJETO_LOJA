@@ -3,9 +3,6 @@ package com.meuprojeto.model;
 import jakarta.persistence.*;
 import org.springframework.security.core.GrantedAuthority;
 
-import javax.persistence.Entity;
-import javax.persistence.Table;
-
 
 @Entity
 @Table(name = "acesso")
