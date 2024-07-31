@@ -17,12 +17,12 @@ public class WebConfigSecurity {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .authorizeHttpRequests(authz -> authz
-                        .requestMatchers(HttpMethod.GET, "/salvarAcesso").permitAll()
-                        .requestMatchers(HttpMethod.POST, "/salvarAcesso").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/salvarAcesso", "/deleteAcesso").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/salvarAcesso", "/deleteAcesso").permitAll()
                         .anyRequest().authenticated()
                 )
                 .csrf(csrf -> csrf.disable()); // Desabilitando CSRF para facilitar os testes
-
+                                                /*Ignorando URL no momento para nao autenticar*/
         return http.build();
     }
 }
