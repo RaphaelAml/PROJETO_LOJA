@@ -2,20 +2,20 @@ package com.meuprojeto.projetoloja;
 
 import com.meuprojeto.controller.AcessoController;
 import com.meuprojeto.model.Acesso;
-import junit.framework.TestCase;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.ResponseEntity;
 
-@SpringBootTest(classes = ProjetoLojaApplication.class)
-public class ProjetoLojaApplicationTests extends TestCase {
+import static junit.framework.TestCase.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
-    //@Autowired
-    //private AcessoService acessoService;
+@SpringBootTest
+public class ProjetoLojaApplicationTests {
 
-    //@Autowired
-    //private AcessoRepository acessoRepository;
-
-
+    @Autowired
     private AcessoController acessoController;
 
     @Test
@@ -25,9 +25,14 @@ public class ProjetoLojaApplicationTests extends TestCase {
 
         acesso.setDescricao("ROLE_ADMIN");
 
+        assertEquals(true, acesso.getId() == null);
+
+        /*Grava no banco de dados*/
         acesso = acessoController.salvarAcesso(acesso).getBody();
 
         assertEquals(true, acesso.getId() > 0);
-    }
 
+        /*Validar dados salvos da forma correta*/
+        assertEquals("ROLE_ADMIN", acesso.getDescricao());
+    }
 }

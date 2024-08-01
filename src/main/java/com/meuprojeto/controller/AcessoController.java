@@ -24,9 +24,7 @@ public class AcessoController {
 
     //Post recebe os dados de uma tela por exemplo
     @ResponseBody //Da o retorno da API
-    @PostMapping(value = "/salvarAcesso") //Mapeando a url para receber json
-                            //endpoint
-
+    @PostMapping(value = "/salvarAcesso") //Mapeando a url para receber json //endpoint
     public ResponseEntity<Acesso> salvarAcesso(@RequestBody Acesso acesso) { //Recebe json e converte para objeto
 
         Acesso acessoSalvo = acessoService.save(acesso);
