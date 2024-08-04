@@ -1,5 +1,6 @@
 package com.meuprojeto.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import org.springframework.security.core.GrantedAuthority;
 
@@ -18,6 +19,7 @@ public class Acesso implements GrantedAuthority {
     @Column(nullable = false)
     private String descricao;
 
+    @JsonIgnore
     @Override
     public String getAuthority() {
         return this.descricao;
