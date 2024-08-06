@@ -26,7 +26,7 @@ SET row_security = off;
 --CREATE DATABASE "loja_virtual_mentoria_teste" WITH TEMPLATE = template0 ENCODING = 'UTF8' LOCALE_PROVIDER = libc LOCALE = 'Portuguese_Brazil.1252';
 
 
-ALTER DATABASE "loja_virtual_mentoria_teste" OWNER TO postgres;
+--ALTER DATABASE "loja_virtual_mentoria_teste" OWNER TO postgres;
 
 --\connect "loja_virtual_mentoria_teste"
 

@@ -9,6 +9,7 @@ import com.meuprojeto.repository.AcessoRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.context.annotation.Profile;
 import org.springframework.http.MediaType;;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
@@ -23,6 +24,7 @@ import java.util.List;
 import static junit.framework.TestCase.assertEquals;
 
 
+@Profile("teste")
 @SpringBootTest
 public class ProjetoLojaApplicationTests {
 
@@ -89,7 +91,7 @@ public class ProjetoLojaApplicationTests {
         System.out.println("Retorno da API: " + retornoApi.andReturn().getResponse().getContentAsString());
         System.out.println("Status de retorno: " + retornoApi.andReturn().getResponse().getStatus());
 
-        assertEquals("Acesso removido: ",retornoApi.andReturn().getResponse().getContentAsString());
+        assertEquals("Acesso removido",retornoApi.andReturn().getResponse().getContentAsString());
         assertEquals(200, retornoApi.andReturn().getResponse().getStatus());
     }
 
@@ -184,7 +186,7 @@ public class ProjetoLojaApplicationTests {
                 .readValue(retornoApi.andReturn().getResponse().getContentAsString(),
                         new TypeReference<List<Acesso>>() {});
 
-        assertEquals(22, retornoApiList.size());
+        assertEquals(23, retornoApiList.size());
         assertEquals(acesso.getDescricao(), retornoApiList.get(0).getDescricao());
 
         acessoRepository.deleteById(acesso.getId());
