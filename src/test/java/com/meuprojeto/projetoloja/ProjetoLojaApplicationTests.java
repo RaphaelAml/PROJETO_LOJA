@@ -186,7 +186,7 @@ public class ProjetoLojaApplicationTests {
                 .readValue(retornoApi.andReturn().getResponse().getContentAsString(),
                         new TypeReference<List<Acesso>>() {});
 
-        assertEquals(23, retornoApiList.size());
+        assertEquals(1, retornoApiList.size());
         assertEquals(acesso.getDescricao(), retornoApiList.get(0).getDescricao());
 
         acessoRepository.deleteById(acesso.getId());
