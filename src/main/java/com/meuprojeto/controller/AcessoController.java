@@ -11,6 +11,9 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+
+//@CrossOrigin(origins = "https://www.alguma coisa") /*Validação por exemplo só é liberado se a requisão vim de algum servidor autorizado*/
+
 @Controller
 @RestController //recebe o json e retorna
 public class AcessoController {
@@ -33,6 +36,7 @@ public class AcessoController {
         /*Salva e retorna um Json*/
     }
 
+    //@Secured({"ROLE_GERENTE", "ROLE_ADMIN"}) /*Somente quem tem esses perfil pode deletar acesso*/
     /*Metodo*/
     @ResponseBody //Da o retorno da API
     @PostMapping(value = "/deleteAcesso") //Mapeando a url para receber json
