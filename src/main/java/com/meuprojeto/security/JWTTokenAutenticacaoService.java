@@ -26,7 +26,7 @@ public class JWTTokenAutenticacaoService {
     private static final long EXPIRATION_TIME = 959990000;
 
     /*Chave de senha para juntar com o JWT*/
-    private static final String SECRET = "Abacaxi";
+    private static final String SECRET = "ss/-*-*sds565dsd-s/d-s*dsds";
 
     private static final String TOKEN_PREFIX = "Bearer";
 
@@ -41,8 +41,6 @@ public class JWTTokenAutenticacaoService {
                 setSubject(username) /*Adiciona o user*/
                 .setExpiration(new Date(System.currentTimeMillis() + EXPIRATION_TIME))
                 .signWith(SignatureAlgorithm.HS512, SECRET).compact(); /*Temp de expiração*/
-
-        System.out.println("Generated JWT: " + JWT);
 
         /*Exe: Bearer *-/a*dad9s5d6as5d4s5d4s45dsd54s.sd4s4d45s45d4sd54d45s4d5s.ds5d5s5d5s65d6s6d*/
         String token = TOKEN_PREFIX + " " + JWT;

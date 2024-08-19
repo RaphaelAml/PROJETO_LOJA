@@ -1,6 +1,7 @@
 package com.meuprojeto.security;
 
 import java.io.IOException;
+
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -16,15 +17,18 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+
 public class JWTLoginFilter extends AbstractAuthenticationProcessingFilter {
 
-    /*Configurando o gerenciador de autenticação*/
+    /*Confgurando o gerenciado de autenticacao*/
     public JWTLoginFilter(String url, AuthenticationManager authenticationManager) {
-        /*Obriga a autenticação na URL*/
+
+        /*Ibriga a autenticat a url*/
         super(new AntPathRequestMatcher(url));
 
-        /*Gerenciador de autenticação*/
+        /*Gerenciador de autenticao*/
         setAuthenticationManager(authenticationManager);
+
     }
 
     @Override
@@ -36,6 +40,7 @@ public class JWTLoginFilter extends AbstractAuthenticationProcessingFilter {
 
 
     /*Retorna o usuário ao processr a autenticacao*/
+
     public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response)
             throws AuthenticationException, IOException, ServletException {
         /*Obter o usuário*/
@@ -45,7 +50,6 @@ public class JWTLoginFilter extends AbstractAuthenticationProcessingFilter {
         return getAuthenticationManager().
                 authenticate(new UsernamePasswordAuthenticationToken(user.getLogin(), user.getSenha()));
     }
-
 
 
     protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain,
@@ -60,4 +64,3 @@ public class JWTLoginFilter extends AbstractAuthenticationProcessingFilter {
     }
 
 }
-

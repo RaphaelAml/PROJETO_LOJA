@@ -1,6 +1,7 @@
 package com.meuprojeto.security;
 
 import java.io.IOException;
+
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
@@ -16,23 +17,26 @@ import org.springframework.web.filter.GenericFilterBean;
 public class JwtApiAutenticacaoFilter extends GenericFilterBean {
 
 
+
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
             throws IOException, ServletException {
 
-        /*Estabele a autenticação do user*/
-        Authentication authentication = new JWTTokenAutenticacaoService()
-                .getAuthetication((HttpServletRequest) request, (HttpServletResponse) response);
+        /*Estabele a autenticao do user*/
 
-        /*Coloca o processo de autenticacao para o Spring Security*/
+        Authentication authentication = new JWTTokenAutenticacaoService().
+                getAuthetication((HttpServletRequest) request, (HttpServletResponse) response);
+
+        /*Coloca o processo de autenticacao para o spring secutiry*/
         SecurityContextHolder.getContext().setAuthentication(authentication);
 
         chain.doFilter(request, response);
+
     }
 
+
     @Override
-    public void doFilter(jakarta.servlet.ServletRequest servletRequest,
-                         jakarta.servlet.ServletResponse servletResponse,
-                         jakarta.servlet.FilterChain filterChain)
+    public void doFilter(jakarta.servlet.ServletRequest servletRequest, jakarta.servlet.ServletResponse
+            servletResponse, jakarta.servlet.FilterChain filterChain)
             throws IOException, jakarta.servlet.ServletException {
 
     }
