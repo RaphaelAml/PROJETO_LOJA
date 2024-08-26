@@ -17,7 +17,6 @@ import org.springframework.web.filter.GenericFilterBean;
 public class JwtApiAutenticacaoFilter extends GenericFilterBean {
 
 
-
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
             throws IOException, ServletException {
 
@@ -35,8 +34,8 @@ public class JwtApiAutenticacaoFilter extends GenericFilterBean {
 
 
     @Override
-    public void doFilter(jakarta.servlet.ServletRequest servletRequest, jakarta.servlet.ServletResponse
-            servletResponse, jakarta.servlet.FilterChain filterChain)
+    public void doFilter(jakarta.servlet.ServletRequest servletRequest, jakarta.servlet.ServletResponse servletResponse,
+                         jakarta.servlet.FilterChain filterChain)
             throws IOException, jakarta.servlet.ServletException {
 
     }

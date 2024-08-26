@@ -72,9 +72,7 @@ public class Usuario implements UserDetails {
     public Pessoa getPessoa() {
         return pessoa;
     }
-
-
-
+    
 
     public Long getId() {
         return id;

@@ -16,6 +16,8 @@ import org.springframework.stereotype.Service;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 
+
+
 /*Criar a autenticação e retonar também a autenticação JWT*/
 @Service
 @Component
