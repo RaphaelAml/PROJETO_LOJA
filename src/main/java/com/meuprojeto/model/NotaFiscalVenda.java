@@ -1,7 +1,9 @@
 package com.meuprojeto.model;
 
 
-import jakarta.persistence.*;
+
+
+import javax.persistence.*;
 
 @Entity
 @Table(name = "nota_fiscal_venda")

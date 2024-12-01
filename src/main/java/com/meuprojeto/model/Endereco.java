@@ -1,8 +1,9 @@
 package com.meuprojeto.model;
 
 import com.meuprojeto.enums.TipoEndereco;
-import jakarta.persistence.*;
 
+
+import javax.persistence.*;
 import java.io.Serializable;
 
 @Entity

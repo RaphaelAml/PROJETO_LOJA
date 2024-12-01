@@ -1,9 +1,10 @@
 package com.meuprojeto.model;
 
-import jakarta.persistence.*;
+
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import javax.persistence.*;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
@@ -72,7 +73,7 @@ public class Usuario implements UserDetails {
     public Pessoa getPessoa() {
         return pessoa;
     }
-    
+
 
     public Long getId() {
         return id;

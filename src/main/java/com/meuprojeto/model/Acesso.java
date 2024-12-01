@@ -1,8 +1,9 @@
 package com.meuprojeto.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import jakarta.persistence.*;
 import org.springframework.security.core.GrantedAuthority;
+
+import javax.persistence.*;
 
 
 @Entity

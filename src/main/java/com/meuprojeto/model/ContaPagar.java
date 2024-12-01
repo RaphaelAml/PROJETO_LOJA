@@ -1,8 +1,9 @@
 package com.meuprojeto.model;
 
 import com.meuprojeto.enums.StatusContaPagar;
-import jakarta.persistence.*;
 
+
+import javax.persistence.*;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
