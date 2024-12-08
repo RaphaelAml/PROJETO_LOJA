@@ -1,7 +1,10 @@
 package com.meuprojeto.security;
 
 import com.meuprojeto.service.ImplementacaoUserDetailsService;
+
 import javax.servlet.http.HttpSessionListener;
+
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -15,6 +18,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+
 
 @Configuration
 @EnableWebSecurity
@@ -69,6 +73,3 @@ public class WebConfigSecurity extends WebSecurityConfigurerAdapter implements H
 
 
 }
-
-
-

@@ -1,25 +1,24 @@
 package com.meuprojeto.security;
-
-import java.io.IOException;
 import java.util.Date;
+
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
 
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
-import io.jsonwebtoken.ExpiredJwtException;
+
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
-import io.jsonwebtoken.SignatureException;
+
 
 import com.meuprojeto.model.Usuario;
 import com.meuprojeto.projetoloja.ApplicationContextLoad;
 import com.meuprojeto.repository.UsuarioRepository;
-
 
 /*Criar a autenticação e retonar também a autenticação JWT*/
 @Service
@@ -55,64 +54,45 @@ public class JWTTokenAutenticacaoService {
 
         liberacaoCors(response);
 
-        Usuario usuario = ApplicationContextLoad.
-                getApplicationContext().
-                getBean(UsuarioRepository.class).findUserByLogin(username);
-
-        System.out.println(usuario.getEmpresa().getId());
-
         /*Usado para ver no Postman para teste*/
-        response.getWriter().write("{\"Authorization\": \""
-                + token + "\",\"username\":\""
-                + username + "\",\"empresa\":\""
-                + usuario.getEmpresa().getId() + "\"}");
+        response.getWriter().write("{\"Authorization\": \"" + token + "\"}");
 
     }
 
 
     /*Retorna o usuário validado com token ou caso nao seja valido retona null*/
-    public Authentication getAuthetication(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    public Authentication getAuthetication(HttpServletRequest request, HttpServletResponse response) {
 
         String token = request.getHeader(HEADER_STRING);
 
-        try {
+        if (token != null) {
 
-            if (token != null) {
+            String tokenLimpo = token.replace(TOKEN_PREFIX, "").trim();
 
-                String tokenLimpo = token.replace(TOKEN_PREFIX, "").trim();
+            /*Faz a validacao do token do usuário na requisicao e obtem o USER*/
+            String user = Jwts.parser().
+                    setSigningKey(SECRET)
+                    .parseClaimsJws(tokenLimpo)
+                    .getBody().getSubject(); /*ADMIN ou Alex*/
 
-                /*Faz a validacao do token do usuário na requisicao e obtem o USER*/
-                String user = Jwts.parser().
-                        setSigningKey(SECRET)
-                        .parseClaimsJws(tokenLimpo)
-                        .getBody().getSubject(); /*ADMIN*/
+            if (user != null) {
 
-                if (user != null) {
+                Usuario usuario = ApplicationContextLoad.
+                        getApplicationContext().
+                        getBean(UsuarioRepository.class).findUserByLogin(user);
 
-                    Usuario usuario = ApplicationContextLoad.
-                            getApplicationContext().
-                            getBean(UsuarioRepository.class).findUserByLogin(user);
-
-                    if (usuario != null) {
-                        return new UsernamePasswordAuthenticationToken(
-                                usuario.getLogin(),
-                                usuario.getSenha(),
-                                usuario.getAuthorities());
-                    }
-
+                if (usuario != null) {
+                    return new UsernamePasswordAuthenticationToken(
+                            usuario.getLogin(),
+                            usuario.getSenha(),
+                            usuario.getAuthorities());
                 }
 
             }
 
-        } catch (SignatureException e) {
-            response.getWriter().write("Token está inválido.");
-
-        } catch (ExpiredJwtException e) {
-            response.getWriter().write("Token está expirado, efetue o login novamente.");
-        } finally {
-            liberacaoCors(response);
         }
 
+        liberacaoCors(response);
         return null;
     }
 
@@ -139,6 +119,8 @@ public class JWTTokenAutenticacaoService {
         }
 
     }
+
+
 
 
 }
