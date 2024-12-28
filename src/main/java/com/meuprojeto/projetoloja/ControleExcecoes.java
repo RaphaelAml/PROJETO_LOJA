@@ -4,6 +4,7 @@ import java.sql.SQLException;
 import java.util.List;
 
 
+import dto.ObjetoErroDTO;
 import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpHeaders;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
+
 
 @RestControllerAdvice
 @ControllerAdvice
@@ -80,7 +82,6 @@ public class ControleExcecoes extends ResponseEntityExceptionHandler {
         return new ResponseEntity<Object>(objetoErroDTO, HttpStatus.INTERNAL_SERVER_ERROR);
 
     }
-
-
+    
 
 }
