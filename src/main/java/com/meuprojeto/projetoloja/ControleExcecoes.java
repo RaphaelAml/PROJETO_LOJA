@@ -4,7 +4,7 @@ import java.sql.SQLException;
 import java.util.List;
 
 
-import dto.ObjetoErroDTO;
+import com.meuprojeto.dto.ObjetoErroDTO;
 import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpHeaders;
@@ -22,6 +22,16 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 @RestControllerAdvice
 @ControllerAdvice
 public class ControleExcecoes extends ResponseEntityExceptionHandler {
+
+    @ExceptionHandler(ExcecaoMsgErro.class)
+    public ResponseEntity<Object> handleExceptionCustom (ExcecaoMsgErro ex){
+        ObjetoErroDTO objetoErroDTO = new ObjetoErroDTO();
+
+        objetoErroDTO.setError(ex.getMessage());
+        objetoErroDTO.setCode(HttpStatus.OK.toString());
+
+        return new ResponseEntity<Object>(objetoErroDTO, HttpStatus.OK);
+    }
 
     /*Captura execeçoes do projeto*/
     @ExceptionHandler({Exception.class, RuntimeException.class, Throwable.class})

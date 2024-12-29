@@ -1,6 +1,7 @@
 package com.meuprojeto.controller;
 
 import com.meuprojeto.model.Acesso;
+import com.meuprojeto.projetoloja.ExcecaoMsgErro;
 import com.meuprojeto.repository.AcessoRepository;
 import com.meuprojeto.service.AcessoService;
 
@@ -35,7 +36,16 @@ public class AcessoController {
 
     @ResponseBody /*Poder dar um retorno da API*/
     @PostMapping(value = "**/salvarAcesso") /*Mapeando a url para receber JSON*/
-    public ResponseEntity<Acesso> salvarAcesso(@RequestBody Acesso acesso) { /*Recebe o JSON e converte pra Objeto*/
+    public ResponseEntity<Acesso> salvarAcesso(@RequestBody Acesso acesso) throws ExcecaoMsgErro { /*Recebe o JSON e converte pra Objeto*/
+
+        if (acesso.getId() == null) {
+            List<Acesso> acessos = acessoRepository.buscarAcessoDesc(acesso.getDescricao().toUpperCase());
+
+            if (!acessos.isEmpty()) {
+                throw new ExcecaoMsgErro("Já existe Acesso com a descrição: " + acesso.getDescricao());
+            }
+        }
+
 
         Acesso acessoSalvo = acessoService.save(acesso);
 
@@ -67,9 +77,13 @@ public class AcessoController {
 
     @ResponseBody
     @GetMapping(value = "**/obterAcesso/{id}")
-    public ResponseEntity<Acesso> obterAcesso(@PathVariable("id") Long id) {
+    public ResponseEntity<Acesso> obterAcesso(@PathVariable("id") Long id) throws ExcecaoMsgErro {
 
-        Acesso acesso = acessoRepository.findById(id).get();
+        Acesso acesso = acessoRepository.findById(id).orElse(null);
+
+        if(acesso == null){
+            throw new ExcecaoMsgErro("Não foi localizado o Acesso com o ID: " + id);
+        }
 
         return new ResponseEntity<Acesso>(acesso,HttpStatus.OK);
     }
@@ -79,7 +93,7 @@ public class AcessoController {
     @GetMapping(value = "**/buscarPorDesc/{desc}")
     public ResponseEntity<List<Acesso>> buscarPorDesc(@PathVariable("desc") String desc) {
 
-        List<Acesso> acesso = acessoRepository.buscarAcessoDesc(desc);
+        List<Acesso> acesso = acessoRepository.buscarAcessoDesc(desc.toUpperCase());
 
         return new ResponseEntity<List<Acesso>>(acesso,HttpStatus.OK);
     }
