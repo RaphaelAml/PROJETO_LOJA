@@ -6,6 +6,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.meuprojeto.controller.AcessoController;
 import com.meuprojeto.model.Acesso;
 import com.meuprojeto.repository.AcessoRepository;
+import junit.framework.TestCase;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -19,14 +20,15 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
 
+import java.util.Calendar;
 import java.util.List;
 
 import static junit.framework.TestCase.assertEquals;
 
 
 @Profile("teste")
-@SpringBootTest
-public class ProjetoLojaApplicationTests {
+@SpringBootTest(classes = ProjetoLojaApplication.class)
+public class ProjetoLojaApplicationTests extends TestCase {
 
     @Autowired
     private AcessoController acessoController;
@@ -37,46 +39,51 @@ public class ProjetoLojaApplicationTests {
     @Autowired
     private WebApplicationContext wac;
 
-    /*Teste do endpoint salvar*/
+    /*Teste do end-point de salvar*/
     @Test
-    public void testResApiCadastroAcesso() throws JsonProcessingException, Exception {
+    public void testRestApiCadastroAcesso() throws JsonProcessingException, Exception {
 
-        /*Objetos que serão resposaveis para fazer os testes, requisições para API e dar um  retorno*/
         DefaultMockMvcBuilder builder = MockMvcBuilders.webAppContextSetup(this.wac);
         MockMvc mockMvc = builder.build();
 
         Acesso acesso = new Acesso();
 
-        acesso.setDescricao("Teste de mock");
+        acesso.setDescricao("ROLE_COMPRADOR" + Calendar.getInstance().getTimeInMillis());
 
         ObjectMapper objectMapper = new ObjectMapper();
 
         ResultActions retornoApi = mockMvc
-                                        .perform(MockMvcRequestBuilders.post("/salvarAcesso")
-                                        .content(objectMapper.writeValueAsString(acesso))
-                                        .accept(MediaType.APPLICATION_JSON)
-                                                .contentType(MediaType.APPLICATION_JSON));
+                .perform(MockMvcRequestBuilders.post("/salvarAcesso")
+                        .content(objectMapper.writeValueAsString(acesso))
+                        .accept(MediaType.APPLICATION_JSON)
+                        .contentType(MediaType.APPLICATION_JSON));
 
-        System.out.println("Retorno da API" + retornoApi.andReturn().getResponse().getContentAsString());
-        /*Converte o retorno da API para um objeto de acesso*/
+        System.out.println("Retorno da API: " + retornoApi.andReturn().getResponse().getContentAsString());
+
+        /*Conveter o retorno da API para um obejto de acesso*/
 
         Acesso objetoRetorno = objectMapper.
-                                        readValue( retornoApi.andReturn().getResponse().getContentAsString(),
-                                        Acesso.class);
+                readValue(retornoApi.andReturn().getResponse().getContentAsString(),
+                        Acesso.class);
 
         assertEquals(acesso.getDescricao(), objetoRetorno.getDescricao());
+
+
+
+
     }
 
-    @Test
-    public void testResApiDeleteAcesso() throws JsonProcessingException, Exception {
 
-        /*Objetos que serão resposaveis para fazer os testes, requisições para API e dar um  retorno*/
+
+    @Test
+    public void testRestApiDeleteAcesso() throws JsonProcessingException, Exception {
+
         DefaultMockMvcBuilder builder = MockMvcBuilders.webAppContextSetup(this.wac);
         MockMvc mockMvc = builder.build();
 
         Acesso acesso = new Acesso();
 
-        acesso.setDescricao("Teste de mock delete");
+        acesso.setDescricao("ROLE_TESTE_DELETE");
 
         acesso = acessoRepository.save(acesso);
 
@@ -91,108 +98,172 @@ public class ProjetoLojaApplicationTests {
         System.out.println("Retorno da API: " + retornoApi.andReturn().getResponse().getContentAsString());
         System.out.println("Status de retorno: " + retornoApi.andReturn().getResponse().getStatus());
 
-        assertEquals("Acesso removido",retornoApi.andReturn().getResponse().getContentAsString());
+        assertEquals("Acesso Removido", retornoApi.andReturn().getResponse().getContentAsString());
         assertEquals(200, retornoApi.andReturn().getResponse().getStatus());
+
+
     }
 
-    @Test
-    public void testResApiDeletePorIdAcesso() throws JsonProcessingException, Exception {
 
-        /*Objetos que serão resposaveis para fazer os testes, requisições para API e dar um  retorno*/
+
+    @Test
+    public void testRestApiDeletePorIDAcesso() throws JsonProcessingException, Exception {
+
         DefaultMockMvcBuilder builder = MockMvcBuilders.webAppContextSetup(this.wac);
         MockMvc mockMvc = builder.build();
 
-        //Cria um novo objeto Acesso e salva no repositorio
         Acesso acesso = new Acesso();
 
-        acesso.setDescricao("Teste de mock delete ID");
+        acesso.setDescricao("ROLE_TESTE_DELETE_ID");
+
         acesso = acessoRepository.save(acesso);
 
         ObjectMapper objectMapper = new ObjectMapper();
 
-        // Realizar a requisiçao para deletar o acesso pelo ID /*Envia e da o retorno*/
         ResultActions retornoApi = mockMvc
-                        .perform(MockMvcRequestBuilders.delete("/deleteAcessoPorId/" + acesso.getId())
+                .perform(MockMvcRequestBuilders.delete("/deleteAcessoPorId/" + acesso.getId())
                         .content(objectMapper.writeValueAsString(acesso))
                         .accept(MediaType.APPLICATION_JSON)
                         .contentType(MediaType.APPLICATION_JSON));
 
-        // Imprimi a resposta e o status
         System.out.println("Retorno da API: " + retornoApi.andReturn().getResponse().getContentAsString());
         System.out.println("Status de retorno: " + retornoApi.andReturn().getResponse().getStatus());
 
-        // Verifica se a resposta e o status estao corretos
-        assertEquals("Acesso removido",retornoApi.andReturn().getResponse().getContentAsString());
+        assertEquals("Acesso Removido", retornoApi.andReturn().getResponse().getContentAsString());
         assertEquals(200, retornoApi.andReturn().getResponse().getStatus());
+
+
     }
 
-    @Test
-    public void testResApiObterAcessoID() throws JsonProcessingException, Exception {
 
-        /*Objetos que serão resposaveis para fazer os testes, requisições para API e dar um  retorno*/ /*Envia e da o retorno*/
+
+    @Test
+    public void testRestApiObterAcessoID() throws JsonProcessingException, Exception {
+
         DefaultMockMvcBuilder builder = MockMvcBuilders.webAppContextSetup(this.wac);
         MockMvc mockMvc = builder.build();
 
-        //Cria um novo objeto Acesso e salva no repositorio
         Acesso acesso = new Acesso();
 
-        acesso.setDescricao("Teste de mock Obter ID");
+        acesso.setDescricao("ROLE_OBTER_ID");
+
         acesso = acessoRepository.save(acesso);
 
         ObjectMapper objectMapper = new ObjectMapper();
 
-        // Realizar a requisiçao para deletar o acesso pelo ID /*Envia e da o retorno*/
         ResultActions retornoApi = mockMvc
                 .perform(MockMvcRequestBuilders.get("/obterAcesso/" + acesso.getId())
                         .content(objectMapper.writeValueAsString(acesso))
                         .accept(MediaType.APPLICATION_JSON)
                         .contentType(MediaType.APPLICATION_JSON));
 
-
-        // Verifica se a resposta e o status estao corretos
         assertEquals(200, retornoApi.andReturn().getResponse().getStatus());
 
-        // Converte para um objeto para se realmente está consultando por ID
+
         Acesso acessoRetorno = objectMapper.readValue(retornoApi.andReturn().getResponse().getContentAsString(), Acesso.class);
 
         assertEquals(acesso.getDescricao(), acessoRetorno.getDescricao());
+
         assertEquals(acesso.getId(), acessoRetorno.getId());
+
     }
 
-    @Test
-    public void testResApiObterAcessoDesc() throws JsonProcessingException, Exception {
 
-        /*Objetos que serão responsáveis para fazer os testes, requisições para API e dar um retorno*/
+
+    @Test
+    public void testRestApiObterAcessoDesc() throws JsonProcessingException, Exception {
+
         DefaultMockMvcBuilder builder = MockMvcBuilders.webAppContextSetup(this.wac);
         MockMvc mockMvc = builder.build();
 
-        // Cria um novo objeto Acesso e salva no repositório
         Acesso acesso = new Acesso();
-        acesso.setDescricao("Teste de mock Obter List");
+
+        acesso.setDescricao("ROLE_TESTE_OBTER_LIST");
+
         acesso = acessoRepository.save(acesso);
 
         ObjectMapper objectMapper = new ObjectMapper();
 
-        // Envia e dá o retorno
         ResultActions retornoApi = mockMvc
-                .perform(MockMvcRequestBuilders.get("/buscarPorDesc/" + acesso.getDescricao())
+                .perform(MockMvcRequestBuilders.get("/buscarPorDesc/OBTER_LIST")
+                        .content(objectMapper.writeValueAsString(acesso))
                         .accept(MediaType.APPLICATION_JSON)
                         .contentType(MediaType.APPLICATION_JSON));
 
-        // Verifica se a resposta e o status estão corretos
         assertEquals(200, retornoApi.andReturn().getResponse().getStatus());
 
-        List<Acesso> retornoApiList = objectMapper
-                .readValue(retornoApi.andReturn().getResponse().getContentAsString(),
-                        new TypeReference<List<Acesso>>() {});
+
+        List<Acesso> retornoApiList = objectMapper.
+                readValue(retornoApi.andReturn()
+                                .getResponse().getContentAsString(),
+                        new TypeReference<List<Acesso>> () {});
+
 
         assertEquals(1, retornoApiList.size());
+
         assertEquals(acesso.getDescricao(), retornoApiList.get(0).getDescricao());
 
+
         acessoRepository.deleteById(acesso.getId());
+
     }
 
 
+    @Test
+    public void testCadastraAcesso() throws ExcecaoMsgErro {
+
+        String descacesso = "ROLE_ADMIN" + Calendar.getInstance().getTimeInMillis();
+
+        Acesso acesso = new Acesso();
+
+        acesso.setDescricao(descacesso);
+
+        assertEquals(true, acesso.getId() == null);
+
+
+        /*Gravou no banco de dados*/
+        acesso = acessoController.salvarAcesso(acesso).getBody();
+
+        assertEquals(true, acesso.getId() > 0);
+
+        /*Validar dados salvos da forma correta*/
+        assertEquals(descacesso, acesso.getDescricao());
+
+        /*Teste de carregamento*/
+
+        Acesso acesso2 = acessoRepository.findById(acesso.getId()).get();
+
+        assertEquals(acesso.getId(), acesso2.getId());
+
+
+        /*Teste de delete*/
+
+        acessoRepository.deleteById(acesso2.getId());
+
+        acessoRepository.flush(); /*Roda esse SQL de delete no banco de dados*/
+
+        Acesso acesso3 = acessoRepository.findById(acesso2.getId()).orElse(null);
+
+        assertEquals(true, acesso3 == null);
+
+
+        /*Teste de query*/
+
+        acesso = new Acesso();
+
+        acesso.setDescricao("ROLE_ALUNO");
+
+        acesso = acessoController.salvarAcesso(acesso).getBody();
+
+        List<Acesso> acessos = acessoRepository.buscarAcessoDesc("ALUNO".trim().toUpperCase());
+
+        assertEquals(1, acessos.size());
+
+        acessoRepository.deleteById(acesso.getId());
+
+
+
+    }
 
 
 }
