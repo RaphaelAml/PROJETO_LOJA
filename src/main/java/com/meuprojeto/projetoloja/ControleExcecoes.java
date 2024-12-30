@@ -10,6 +10,7 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -25,6 +26,7 @@ public class ControleExcecoes extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(ExcecaoMsgErro.class)
     public ResponseEntity<Object> handleExceptionCustom (ExcecaoMsgErro ex){
+
         ObjetoErroDTO objetoErroDTO = new ObjetoErroDTO();
 
         objetoErroDTO.setError(ex.getMessage());
@@ -50,6 +52,8 @@ public class ControleExcecoes extends ResponseEntityExceptionHandler {
             for (ObjectError objectError : list) {
                 msg += objectError.getDefaultMessage() + "\n";
             }
+        } if(ex instanceof HttpMessageNotReadableException){
+            msg = "Não está sendo enviado os dados para o body da requisição";
         }else {
             msg = ex.getMessage();
         }

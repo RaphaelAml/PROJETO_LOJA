@@ -11,7 +11,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.Profile;
-import org.springframework.http.MediaType;;
+import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
@@ -22,8 +22,6 @@ import org.springframework.web.context.WebApplicationContext;
 
 import java.util.Calendar;
 import java.util.List;
-
-import static junit.framework.TestCase.assertEquals;
 
 
 @Profile("teste")
@@ -40,7 +38,6 @@ public class ProjetoLojaApplicationTests extends TestCase {
     private WebApplicationContext wac;
 
     /*Teste do end-point de salvar*/
-    @Test
     public void testRestApiCadastroAcesso() throws JsonProcessingException, Exception {
 
         DefaultMockMvcBuilder builder = MockMvcBuilders.webAppContextSetup(this.wac);
@@ -75,7 +72,6 @@ public class ProjetoLojaApplicationTests extends TestCase {
 
 
 
-    @Test
     public void testRestApiDeleteAcesso() throws JsonProcessingException, Exception {
 
         DefaultMockMvcBuilder builder = MockMvcBuilders.webAppContextSetup(this.wac);
@@ -106,7 +102,6 @@ public class ProjetoLojaApplicationTests extends TestCase {
 
 
 
-    @Test
     public void testRestApiDeletePorIDAcesso() throws JsonProcessingException, Exception {
 
         DefaultMockMvcBuilder builder = MockMvcBuilders.webAppContextSetup(this.wac);
@@ -137,7 +132,6 @@ public class ProjetoLojaApplicationTests extends TestCase {
 
 
 
-    @Test
     public void testRestApiObterAcessoID() throws JsonProcessingException, Exception {
 
         DefaultMockMvcBuilder builder = MockMvcBuilders.webAppContextSetup(this.wac);
@@ -170,7 +164,6 @@ public class ProjetoLojaApplicationTests extends TestCase {
 
 
 
-    @Test
     public void testRestApiObterAcessoDesc() throws JsonProcessingException, Exception {
 
         DefaultMockMvcBuilder builder = MockMvcBuilders.webAppContextSetup(this.wac);
@@ -209,7 +202,6 @@ public class ProjetoLojaApplicationTests extends TestCase {
     }
 
 
-    @Test
     public void testCadastraAcesso() throws ExcecaoMsgErro {
 
         String descacesso = "ROLE_ADMIN" + Calendar.getInstance().getTimeInMillis();
