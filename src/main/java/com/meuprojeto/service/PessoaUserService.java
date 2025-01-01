@@ -65,7 +65,7 @@ public class PessoaUserService {
             StringBuilder menssagemHtml = new StringBuilder();
 
             menssagemHtml.append("<b>Segue abaixo seus dados de acesso para a loja</b>");
-            menssagemHtml.append("<b>Login: </b>"+juridica.getEmail()+"</b><br/>");
+            menssagemHtml.append("<b>Login: </b>"+juridica.getEmail()+"<br/>");
             menssagemHtml.append("<b>Senha: </b>").append(senha).append("<br/><br/>");
             menssagemHtml.append("Obrigado!");
 
