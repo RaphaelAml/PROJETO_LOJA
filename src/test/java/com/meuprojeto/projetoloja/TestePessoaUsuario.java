@@ -85,7 +85,7 @@ public class TestePessoaUsuario extends TestCase {
     @Test
     public void testCadPessoaFisica() throws ExcecaoMsgErro {
 
-        PessoaJuridica pessoaJuridica =  pessoaRepository.existeCnpjCadastrado("1647987989047");
+        PessoaJuridica pessoaJuridica =  pessoaRepository.existeCnpjCadastrado("1735727159893");
 
         PessoaFisica pessoaFisica = new PessoaFisica();
         pessoaFisica.setCpf("713.482.980-49");
