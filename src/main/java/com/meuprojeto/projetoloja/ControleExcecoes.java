@@ -2,9 +2,6 @@ package com.meuprojeto.projetoloja;
 
 import java.sql.SQLException;
 import java.util.List;
-
-
-import com.meuprojeto.dto.ObjetoErroDTO;
 import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpHeaders;
@@ -18,6 +15,8 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
+import com.meuprojeto.model.dto.ObjetoErroDTO;
+
 
 
 @RestControllerAdvice
@@ -25,7 +24,7 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 public class ControleExcecoes extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(ExcecaoMsgErro.class)
-    public ResponseEntity<Object> handleExceptionCustom (ExcecaoMsgErro ex){
+    public ResponseEntity<Object> handleExceptionCustom (ExcecaoMsgErro ex) {
 
         ObjetoErroDTO objetoErroDTO = new ObjetoErroDTO();
 
@@ -34,6 +33,8 @@ public class ControleExcecoes extends ResponseEntityExceptionHandler {
 
         return new ResponseEntity<Object>(objetoErroDTO, HttpStatus.OK);
     }
+
+
 
     /*Captura execeçoes do projeto*/
     @ExceptionHandler({Exception.class, RuntimeException.class, Throwable.class})
@@ -50,10 +51,12 @@ public class ControleExcecoes extends ResponseEntityExceptionHandler {
             List<ObjectError> list = ((MethodArgumentNotValidException) ex).getBindingResult().getAllErrors();
 
             for (ObjectError objectError : list) {
-                msg += objectError.getDefaultMessage() + "\n";
+                msg += objectError.getDefaultMessage() + "";
             }
-        } if(ex instanceof HttpMessageNotReadableException){
-            msg = "Não está sendo enviado os dados para o body da requisição";
+        }
+        else if (ex instanceof HttpMessageNotReadableException) {
+            msg = "Não está sendo enviado dados para o BODY corpo da requisição";
+
         }else {
             msg = ex.getMessage();
         }
@@ -65,6 +68,7 @@ public class ControleExcecoes extends ResponseEntityExceptionHandler {
 
         return new ResponseEntity<Object>(objetoErroDTO, HttpStatus.INTERNAL_SERVER_ERROR);
     }
+
 
 
     /*Captura erro na parte de banco*/

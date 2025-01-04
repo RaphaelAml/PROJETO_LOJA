@@ -1,8 +1,9 @@
-package com.meuprojeto.dto;
+package com.meuprojeto.model.dto;
 import java.io.Serializable;
 
 
 public class ObjetoErroDTO implements Serializable {
+
 
 
     private static final long serialVersionUID = 1L;
@@ -10,6 +11,7 @@ public class ObjetoErroDTO implements Serializable {
 
     private String error;
     private String code;
+
     public String getError() {
         return error;
     }
@@ -22,5 +24,6 @@ public class ObjetoErroDTO implements Serializable {
     public void setCode(String code) {
         this.code = code;
     }
+
 
 }

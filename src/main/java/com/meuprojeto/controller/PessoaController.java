@@ -15,11 +15,13 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.validation.Valid;
+
 @RestController
 public class PessoaController {
 
     @Autowired
-    private PessoaRepository pessoaRepository;
+    private PessoaRepository pesssoaRepository;
 
     @Autowired
     private PessoaUserService pessoaUserService;
@@ -27,22 +29,29 @@ public class PessoaController {
     /*end-point é microsservicos é um API*/
     @ResponseBody
     @PostMapping(value = "**/salvarPj")
-    public ResponseEntity<PessoaJuridica> salvarPj(@RequestBody PessoaJuridica pessoaJuridica) throws ExcecaoMsgErro {
+    public ResponseEntity<PessoaJuridica> salvarPj(@RequestBody @Valid PessoaJuridica pessoaJuridica) throws ExcecaoMsgErro{
+
+		/*if (pessoaJuridica.getNome() == null || pessoaJuridica.getNome().trim().isEmpty()) {
+			throw new ExceptionMentoriaJava("Informe o campo de nome");
+		}*/
+
 
         if (pessoaJuridica == null) {
             throw new ExcecaoMsgErro("Pessoa juridica nao pode ser NULL");
         }
 
-        if (pessoaJuridica.getId() == null && pessoaRepository.existeCnpjCadastrado(pessoaJuridica.getCnpj()) != null) {
+        if (pessoaJuridica.getId() == null && pesssoaRepository.existeCnpjCadastrado(pessoaJuridica.getCnpj()) != null) {
             throw new ExcecaoMsgErro("Já existe CNPJ cadastrado com o número: " + pessoaJuridica.getCnpj());
         }
 
-        if (pessoaJuridica.getId() == null && pessoaRepository.existeInsEstadualCadastrado(pessoaJuridica.getInscEstadual()) != null) {
-            throw new ExcecaoMsgErro("Já existe Inscrição Estadual cadastrado com o número: " + pessoaJuridica.getInscEstadual());
+
+        if (pessoaJuridica.getId() == null && pesssoaRepository.existeInsEstadualCadastrado(pessoaJuridica.getInscEstadual()) != null) {
+            throw new ExcecaoMsgErro("Já existe Inscrição estadual cadastrado com o número: " + pessoaJuridica.getInscEstadual());
         }
 
-        if (!ValidaCNPJ.isCNPJ(pessoaJuridica.getCnpj())){
-            throw new ExcecaoMsgErro("Cnpj : " + pessoaJuridica.getCnpj() + " está invalido");
+
+        if (!ValidaCNPJ.isCNPJ(pessoaJuridica.getCnpj())) {
+            throw new ExcecaoMsgErro("Cnpj : " + pessoaJuridica.getCnpj() + " está inválido.");
         }
 
         pessoaJuridica = pessoaUserService.salvarPessoaJuridica(pessoaJuridica);
@@ -50,22 +59,25 @@ public class PessoaController {
         return new ResponseEntity<PessoaJuridica>(pessoaJuridica, HttpStatus.OK);
     }
 
+
+
+
     /*end-point é microsservicos é um API*/
     @ResponseBody
     @PostMapping(value = "**/salvarPf")
-    public ResponseEntity<PessoaFisica> salvarPf(@RequestBody PessoaFisica pessoaFisica) throws ExcecaoMsgErro {
+    public ResponseEntity<PessoaFisica> salvarPf(@RequestBody PessoaFisica pessoaFisica) throws ExcecaoMsgErro{
 
         if (pessoaFisica == null) {
             throw new ExcecaoMsgErro("Pessoa fisica não pode ser NULL");
         }
 
-        if (pessoaFisica.getId() == null && pessoaRepository.existeCpfCadastrado(pessoaFisica.getCpf()) != null) {
+        if (pessoaFisica.getId() == null && pesssoaRepository.existeCpfCadastrado(pessoaFisica.getCpf()) != null) {
             throw new ExcecaoMsgErro("Já existe CPF cadastrado com o número: " + pessoaFisica.getCpf());
         }
 
 
-        if (!ValidaCPF.isCPF(pessoaFisica.getCpf())){
-            throw new ExcecaoMsgErro("CPF : " + pessoaFisica.getCpf() + " está invalido");
+        if (!ValidaCPF.isCPF(pessoaFisica.getCpf())) {
+            throw new ExcecaoMsgErro("CPF : " + pessoaFisica.getCpf() + " está inválido.");
         }
 
         pessoaFisica = pessoaUserService.salvarPessoaFisica(pessoaFisica);
