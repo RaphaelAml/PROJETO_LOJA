@@ -1,8 +1,10 @@
 package com.meuprojeto.service;
 
+import com.meuprojeto.model.PessoaFisica;
 import com.meuprojeto.model.PessoaJuridica;
 import com.meuprojeto.model.Usuario;
-import com.meuprojeto.repository.PesssoaRepository;
+import com.meuprojeto.repository.PessoaFisicaRepository;
+import com.meuprojeto.repository.PessoaRepository;
 import com.meuprojeto.repository.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -19,13 +21,16 @@ public class PessoaUserService {
     private UsuarioRepository usuarioRepository;
 
     @Autowired
-    private PesssoaRepository pesssoaRepository;
+    private PessoaRepository pessoaRepository;
 
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
     @Autowired
     private ServiceSendEmail serviceSendEmail;
+
+    @Autowired
+    private PessoaFisicaRepository pessoaFisicaRepository;
 
     public PessoaJuridica salvarPessoaJuridica(PessoaJuridica juridica) {
 
@@ -36,7 +41,7 @@ public class PessoaUserService {
             juridica.getEnderecos().get(i).setEmpresa(juridica);
         }
 
-        juridica = pesssoaRepository.save(juridica);
+        juridica = pessoaRepository.save(juridica);
 
         Usuario usuarioPj = usuarioRepository.findUserByPessoa(juridica.getId(), juridica.getEmail());
 
@@ -60,8 +65,8 @@ public class PessoaUserService {
 
             usuarioPj = usuarioRepository.save(usuarioPj);
 
-            usuarioRepository.insereAcessoUserPj(usuarioPj.getId());
-            usuarioRepository.insereAcessoUserPj(usuarioPj.getId(), "ROLE_ADMIN");
+            usuarioRepository.insereAcessoUser(usuarioPj.getId());
+            usuarioRepository.insereAcessoUser(usuarioPj.getId(), "ROLE_ADMIN");
 
             StringBuilder menssagemHtml = new StringBuilder();
 
@@ -79,5 +84,58 @@ public class PessoaUserService {
 
         }
         return juridica;
+    }
+
+    public PessoaFisica salvarPessoaFisica(PessoaFisica pessoaFisica) {
+
+        //juridica = pesssoaRepository.save(juridica);
+
+        for (int i = 0; i < pessoaFisica.getEnderecos().size(); i++) {
+            pessoaFisica.getEnderecos().get(i).setPessoa(pessoaFisica);
+            //pessoaFisica.getEnderecos().get(i).setEmpresa(pessoaFisica);
+        }
+
+        pessoaFisica = pessoaFisicaRepository.save(pessoaFisica);
+
+        Usuario usuarioPj = usuarioRepository.findUserByPessoa(pessoaFisica.getId(), pessoaFisica.getEmail());
+
+        if (usuarioPj == null) {
+
+            String constraint = usuarioRepository.consultaConstraintAcesso();
+            if (constraint != null) {
+                jdbcTemplate.execute("begin; alter table usuarios_acesso drop constraint " + constraint + "; commit;");
+            }
+
+            usuarioPj = new Usuario();
+            usuarioPj.setDataAtualSenha(Calendar.getInstance().getTime());
+            usuarioPj.setEmpresa(pessoaFisica.getEmpresa());
+            usuarioPj.setPessoa(pessoaFisica);
+            usuarioPj.setLogin(pessoaFisica.getEmail());
+
+            String senha = "" + Calendar.getInstance().getTimeInMillis();
+            String senhaCript = new BCryptPasswordEncoder().encode(senha);
+
+            usuarioPj.setSenha(senhaCript);
+
+            usuarioPj = usuarioRepository.save(usuarioPj);
+
+            usuarioRepository.insereAcessoUser(usuarioPj.getId());
+
+            StringBuilder menssagemHtml = new StringBuilder();
+
+            menssagemHtml.append("<b>Segue abaixo seus dados de acesso para a loja</b>");
+            menssagemHtml.append("<b>Login: </b>"+pessoaFisica.getEmail()+"<br/>");
+            menssagemHtml.append("<b>Senha: </b>").append(senha).append("<br/><br/>");
+            menssagemHtml.append("Obrigado!");
+
+
+            try {
+                serviceSendEmail.enviarEmailHtml("Acesso gerado para loja", menssagemHtml.toString(), pessoaFisica.getEmail());
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+        }
+        return pessoaFisica;
     }
 }

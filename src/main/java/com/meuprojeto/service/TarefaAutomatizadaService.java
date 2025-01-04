@@ -22,7 +22,7 @@ public class TarefaAutomatizadaService {
     private ServiceSendEmail serviceSendEmail;
 
     //@Scheduled(initialDelay = 2000, fixedDelay = 86400000) //Roda a cada 24 horas
-    //@Scheduled(cron = "0 0 11 * * *", zone = "America/Sao_Paulo") //Vai rodar todo dia as 11 horas da manha horario de sao paulo
+    @Scheduled(cron = "0 0 11 * * *", zone = "America/Sao_Paulo") //Vai rodar todo dia as 11 horas da manha horario de sao paulo
     public void notificarUserTrocarSenha() throws MessagingException, UnsupportedEncodingException, InterruptedException {
 
         List<Usuario> usuarios = usuarioRepository.usuarioSenhaVencida();
