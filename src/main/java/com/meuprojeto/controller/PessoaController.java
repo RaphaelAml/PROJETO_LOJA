@@ -6,6 +6,7 @@ import com.meuprojeto.model.PessoaFisica;
 import com.meuprojeto.model.PessoaJuridica;
 import com.meuprojeto.projetoloja.ExcecaoMsgErro;
 import com.meuprojeto.repository.EnderecoRepository;
+import com.meuprojeto.repository.PessoaFisicaRepository;
 import com.meuprojeto.repository.PessoaRepository;
 import com.meuprojeto.service.PessoaUserService;
 import com.meuprojeto.util.ValidaCNPJ;
@@ -13,9 +14,12 @@ import com.meuprojeto.util.ValidaCPF;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.sql.SQLException;
+import java.util.List;
 
 @RestController
 public class PessoaController {
@@ -29,6 +33,60 @@ public class PessoaController {
     @Autowired
     private EnderecoRepository enderecoRepository;
 
+    @Autowired
+    private PessoaFisicaRepository pessoaFisicaRepository;
+
+    @Autowired
+    private PessoaRepository pessoaRepository;
+
+    @Autowired
+    private JdbcTemplate jdbcTemplate;
+
+
+    @ResponseBody
+    @GetMapping(value = "**/consultaPfNome/{nome}")
+    public ResponseEntity<List<PessoaFisica>> consultaPfNome(@PathVariable("nome") String nome){
+
+        List<PessoaFisica> fisicas = pessoaFisicaRepository.pesquisaPorNomePF(nome.trim().toUpperCase());
+
+        jdbcTemplate.execute("begin; update tabela_acesso_end_potin set qtd_acesso_end_point = qtd_acesso_end_point + 1 where nome_end_point = 'END-POINT-NOME-PESSOA-FISICA'; commit;");
+
+        return new ResponseEntity<List<PessoaFisica>>(fisicas, HttpStatus.OK);
+    }
+
+
+
+    @ResponseBody
+    @GetMapping(value = "**/consultaPfCpf/{cpf}")
+    public ResponseEntity<List<PessoaFisica>> consultaPfCpf(@PathVariable("cpf") String cpf) {
+
+        List<PessoaFisica> fisicas = pessoaFisicaRepository.pesquisaPorCpfPF(cpf);
+
+        return new ResponseEntity<List<PessoaFisica>>(fisicas, HttpStatus.OK);
+    }
+
+
+    @ResponseBody
+    @GetMapping(value = "**/consultaNomePJ/{nome}")
+    public ResponseEntity<List<PessoaJuridica>> consultaNomePJ(@PathVariable("nome") String nome) {
+
+        List<PessoaJuridica> fisicas = pesssoaRepository.pesquisaPorNomePJ(nome.trim().toUpperCase());
+
+        return new ResponseEntity<List<PessoaJuridica>>(fisicas, HttpStatus.OK);
+    }
+
+
+    @ResponseBody
+    @GetMapping(value = "**/consultaCnpjPJ/{cnpj}")
+    public ResponseEntity<List<PessoaJuridica>> consultaCnpjPJ(@PathVariable("cnpj") String cnpj) {
+
+        List<PessoaJuridica> fisicas = pesssoaRepository.existeCnpjCadastradoList(cnpj.trim().toUpperCase());
+
+        return new ResponseEntity<List<PessoaJuridica>>(fisicas, HttpStatus.OK);
+    }
+
+
+
     @ResponseBody
     @GetMapping(value = "**/consultaCep/{cep}")
     public ResponseEntity<CepDTO> consultaCep(@PathVariable("cep") String cep){
@@ -36,6 +94,9 @@ public class PessoaController {
         return new ResponseEntity<CepDTO>(pessoaUserService.consultaCep(cep), HttpStatus.OK);
 
     }
+
+
+
 
 
     /*end-point é microsservicos é um API*/
