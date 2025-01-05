@@ -1,5 +1,6 @@
 package com.meuprojeto.service;
 
+import com.meuprojeto.dto.CepDTO;
 import com.meuprojeto.model.PessoaFisica;
 import com.meuprojeto.model.PessoaJuridica;
 import com.meuprojeto.model.Usuario;
@@ -10,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 
 import java.util.Calendar;
 
@@ -138,4 +140,9 @@ public class PessoaUserService {
         }
         return pessoaFisica;
     }
+    public CepDTO consultaCep(String cep) {
+        return new RestTemplate().getForEntity("https://viacep.com.br/ws/" + cep + "/json/", CepDTO.class).getBody();
+    }
+
 }
+

@@ -31,10 +31,10 @@ public class TestePessoaUsuario extends TestCase {
 
         PessoaJuridica pessoaJuridica = new PessoaJuridica();
         pessoaJuridica.setCnpj("" + Calendar.getInstance().getTimeInMillis());
-        pessoaJuridica.setNome("Ra");
-        pessoaJuridica.setEmail("alex.fernando.egidio@gmail.com");
+        pessoaJuridica.setNome("Raphael");
+        pessoaJuridica.setEmail("raphaelaml02@gmail.com");
         pessoaJuridica.setTelefone("45999795800");
-        pessoaJuridica.setInscEstadual("65556565656665");
+        pessoaJuridica.setInscEstadual("65556564656665");
         pessoaJuridica.setInscMunicipal("55554565656565");
         pessoaJuridica.setNomeFantasia("54556565665");
         pessoaJuridica.setRazaoSocial("4656656566");
@@ -88,9 +88,9 @@ public class TestePessoaUsuario extends TestCase {
         PessoaJuridica pessoaJuridica =  pessoaRepository.existeCnpjCadastrado("1735727159893");
 
         PessoaFisica pessoaFisica = new PessoaFisica();
-        pessoaFisica.setCpf("713.482.980-49");
-        pessoaFisica.setNome("Alex fernando");
-        pessoaFisica.setEmail("alex.fe85549989r9559nando.egidio@gmail.com");
+        pessoaFisica.setCpf("965.009.350-80");
+        pessoaFisica.setNome("Raphael");
+        pessoaFisica.setEmail("raphaelaml02@gmadil.com");
         pessoaFisica.setTelefone("45999795800");
         pessoaFisica.setEmpresa(pessoaJuridica);
 
