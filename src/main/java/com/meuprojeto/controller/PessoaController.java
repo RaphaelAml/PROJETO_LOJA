@@ -9,6 +9,7 @@ import com.meuprojeto.repository.EnderecoRepository;
 import com.meuprojeto.repository.PessoaFisicaRepository;
 import com.meuprojeto.repository.PessoaRepository;
 import com.meuprojeto.service.PessoaUserService;
+import com.meuprojeto.service.ServiceContagemAcessoApi;
 import com.meuprojeto.util.ValidaCNPJ;
 import com.meuprojeto.util.ValidaCPF;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,7 +41,8 @@ public class PessoaController {
     private PessoaRepository pessoaRepository;
 
     @Autowired
-    private JdbcTemplate jdbcTemplate;
+    private ServiceContagemAcessoApi serviceContagemAcessoApi;
+
 
 
     @ResponseBody
@@ -49,7 +51,7 @@ public class PessoaController {
 
         List<PessoaFisica> fisicas = pessoaFisicaRepository.pesquisaPorNomePF(nome.trim().toUpperCase());
 
-        jdbcTemplate.execute("begin; update tabela_acesso_end_potin set qtd_acesso_end_point = qtd_acesso_end_point + 1 where nome_end_point = 'END-POINT-NOME-PESSOA-FISICA'; commit;");
+        serviceContagemAcessoApi.atualizaAcessoEndPointPF();
 
         return new ResponseEntity<List<PessoaFisica>>(fisicas, HttpStatus.OK);
     }
