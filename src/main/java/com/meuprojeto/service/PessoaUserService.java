@@ -1,6 +1,7 @@
 package com.meuprojeto.service;
 
 import com.meuprojeto.dto.CepDTO;
+import com.meuprojeto.dto.ConsultaCnpjDTO;
 import com.meuprojeto.model.PessoaFisica;
 import com.meuprojeto.model.PessoaJuridica;
 import com.meuprojeto.model.Usuario;
@@ -143,6 +144,11 @@ public class PessoaUserService {
     public CepDTO consultaCep(String cep) {
         return new RestTemplate().getForEntity("https://viacep.com.br/ws/" + cep + "/json/", CepDTO.class).getBody();
     }
+
+    public ConsultaCnpjDTO consultaCnpjReceitaWS(String cnpj) {
+        return new RestTemplate().getForEntity("https://receitaws.com.br/v1/cnpj/" + cnpj, ConsultaCnpjDTO.class).getBody();
+    }
+
 
 }
 

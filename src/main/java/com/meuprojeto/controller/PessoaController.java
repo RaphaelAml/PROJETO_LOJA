@@ -1,6 +1,8 @@
 package com.meuprojeto.controller;
 
 import com.meuprojeto.dto.CepDTO;
+import com.meuprojeto.dto.ConsultaCnpjDTO;
+import com.meuprojeto.enums.TipoPessoa;
 import com.meuprojeto.model.Endereco;
 import com.meuprojeto.model.PessoaFisica;
 import com.meuprojeto.model.PessoaJuridica;
@@ -97,6 +99,15 @@ public class PessoaController {
 
     }
 
+    @ResponseBody
+    @GetMapping(value = "**/consultaCnpjReceitaWs/{cnpj}")
+    public ResponseEntity<ConsultaCnpjDTO> consultaCnpjReceitaWs(@PathVariable("cnpj") String cnpj){
+
+        return new ResponseEntity<ConsultaCnpjDTO>(pessoaUserService.consultaCnpjReceitaWS(cnpj), HttpStatus.OK);
+
+    }
+
+
 
 
 
@@ -113,6 +124,10 @@ public class PessoaController {
 
         if (pessoaJuridica == null) {
             throw new ExcecaoMsgErro("Pessoa juridica nao pode ser NULL");
+        }
+
+        if (pessoaJuridica.getTipoPessoa() == null) {
+            throw new ExcecaoMsgErro("Infome o tipo Juridico ou Fornecedor da loja");
         }
 
         if (pessoaJuridica.getId() == null && pesssoaRepository.existeCnpjCadastrado(pessoaJuridica.getCnpj()) != null) {
@@ -171,6 +186,11 @@ public class PessoaController {
         if (pessoaFisica == null) {
             throw new ExcecaoMsgErro("Pessoa fisica não pode ser NULL");
         }
+
+        if (pessoaFisica.getTipoPessoa() == null) {
+            pessoaFisica.setTipoPessoa(TipoPessoa.Fisica.name());
+        }
+
 
         if (pessoaFisica.getId() == null && pesssoaRepository.existeCpfCadastrado(pessoaFisica.getCpf()) != null) {
             throw new ExcecaoMsgErro("Já existe CPF cadastrado com o número: " + pessoaFisica.getCpf());
