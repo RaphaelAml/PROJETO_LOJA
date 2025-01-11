@@ -2,6 +2,8 @@ package com.meuprojeto.model;
 
 
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import javax.persistence.*;
 import java.io.Serializable;
 
@@ -16,48 +18,74 @@ public class CategoriaProduto implements Serializable {
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq_categoria_produto")
     private Long id;
 
+
     @Column(name = "nome_desc", nullable = false)
     private String nomeDesc;
 
-    @ManyToOne(targetEntity = Pessoa.class)
+
+    @JsonProperty(value = "empresa")
+    @ManyToOne(targetEntity = PessoaJuridica.class)
     @JoinColumn(name = "empresa_id", nullable = false,
             foreignKey = @ForeignKey(value = ConstraintMode.CONSTRAINT, name = "empresa_id_fk"))
-    private Pessoa empresa;
+    private PessoaJuridica empresa = new PessoaJuridica();
 
-    public Pessoa getEmpresa() {
+
+
+    public PessoaJuridica getEmpresa() {
         return empresa;
     }
 
-    public void setEmpresa(Pessoa empresa) {
+
+    public void setEmpresa(PessoaJuridica empresa) {
         this.empresa = empresa;
     }
+
 
     public Long getId() {
         return id;
     }
 
+
     public void setId(Long id) {
         this.id = id;
     }
+
 
     public String getNomeDesc() {
         return nomeDesc;
     }
 
+
     public void setNomeDesc(String nomeDesc) {
         this.nomeDesc = nomeDesc;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof CategoriaProduto that)) return false;
-
-        return getId() != null ? getId().equals(that.getId()) : that.getId() == null;
-    }
 
     @Override
     public int hashCode() {
-        return getId() != null ? getId().hashCode() : 0;
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((id == null) ? 0 : id.hashCode());
+        return result;
     }
+
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        CategoriaProduto other = (CategoriaProduto) obj;
+        if (id == null) {
+            if (other.id != null)
+                return false;
+        } else if (!id.equals(other.id))
+            return false;
+        return true;
+    }
+
+
 }
