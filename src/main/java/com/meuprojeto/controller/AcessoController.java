@@ -23,7 +23,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 
-//@CrossOrigin(origins = "https://www.jdevtreinamento.com.br")
+//@CrossOrigin(origins = "https://www.com.br")
 @Controller
 @RestController
 public class AcessoController {
