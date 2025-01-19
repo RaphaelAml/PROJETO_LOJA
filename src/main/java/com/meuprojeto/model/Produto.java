@@ -104,15 +104,10 @@ public class Produto implements Serializable {
 
     @NotNull(message = "Categoria deve ser informada")
     @ManyToOne(targetEntity = CategoriaProduto.class)
-    @JoinColumn(name = "categoria_id", nullable = false,
+    @JoinColumn(name = "categoria_produto_id", nullable = false,
             foreignKey = @ForeignKey(value = ConstraintMode.CONSTRAINT, name = "categoria_produto_id_fk"))
     private CategoriaProduto categoriaProduto = new CategoriaProduto();
 
-    @NotNull(message = "A nota fiscal deve ser informada")
-    @ManyToOne(targetEntity = NotaItemProduto.class)
-    @JoinColumn(name = "nota_item_id", nullable = false,
-            foreignKey = @ForeignKey(value = ConstraintMode.CONSTRAINT, name = "nota_item_id_fk"))
-    private NotaItemProduto notaItemProduto = new NotaItemProduto();
 
 
     @NotNull(message = "A marca do produto deve ser informada")
@@ -130,13 +125,6 @@ public class Produto implements Serializable {
         return marcaProduto;
     }
 
-    public void setNotaItemProduto(NotaItemProduto notaItemProduto) {
-        this.notaItemProduto = notaItemProduto;
-    }
-
-    public NotaItemProduto getNotaItemProduto() {
-        return notaItemProduto;
-    }
 
     public void setCategoriaProduto(CategoriaProduto categoriaProduto) {
         this.categoriaProduto = categoriaProduto;
