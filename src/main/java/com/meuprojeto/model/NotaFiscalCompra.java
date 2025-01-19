@@ -23,7 +23,6 @@ import javax.validation.constraints.NotNull;
 
 
 
-
 @Entity
 @Table(name = "nota_fiscal_compra")
 @SequenceGenerator(name = "seq_nota_fiscal_compra", sequenceName = "seq_nota_fiscal_compra", allocationSize = 1, initialValue = 1)
@@ -49,7 +48,8 @@ public class NotaFiscalCompra implements Serializable {
 
     private String descricaoObs;
 
-    @NotNull(message = "Informe valor total da nota")
+
+    @NotNull(message = "Informe o total da nota")
     @Column(nullable = false)
     private BigDecimal valorTotal;
 
@@ -75,7 +75,7 @@ public class NotaFiscalCompra implements Serializable {
     private ContaPagar contaPagar;
 
 
-    @ManyToOne(targetEntity = Pessoa.class)
+    @ManyToOne(targetEntity = PessoaJuridica.class)
     @JoinColumn(name = "empresa_id", nullable = false,
             foreignKey = @ForeignKey(value = ConstraintMode.CONSTRAINT, name = "empresa_id_fk"))
     private PessoaJuridica empresa;
