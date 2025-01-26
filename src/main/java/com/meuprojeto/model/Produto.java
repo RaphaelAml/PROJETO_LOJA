@@ -3,19 +3,11 @@ package com.meuprojeto.model;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
 
 
-import javax.persistence.Column;
-import javax.persistence.ConstraintMode;
-import javax.persistence.Entity;
-import javax.persistence.ForeignKey;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.SequenceGenerator;
-import javax.persistence.Table;
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
@@ -82,10 +74,10 @@ public class Produto implements Serializable {
 
 
     @Column(nullable = false)
-    private Integer QtdEstoque = 0;
+    private Integer qtdEstoque = 0;
 
 
-    private Integer QtdeAlertaEstoque = 0;
+    private Integer qtdeAlertaEstoque = 0;
 
 
     private String linkYoutube;
@@ -109,12 +101,25 @@ public class Produto implements Serializable {
     private CategoriaProduto categoriaProduto = new CategoriaProduto();
 
 
-
     @NotNull(message = "A marca do produto deve ser informada")
     @ManyToOne(targetEntity = MarcaProduto.class)
     @JoinColumn(name = "marca_produto_id", nullable = false,
             foreignKey = @ForeignKey(value = ConstraintMode.CONSTRAINT, name = "marca_produto_id_fk"))
     private MarcaProduto marcaProduto = new MarcaProduto();
+
+
+    @OneToMany(mappedBy = "produto", orphanRemoval = true, cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<ImagemProduto> imagens = new ArrayList<ImagemProduto>();
+
+    public void setImagens(List<ImagemProduto> imagens) {
+        this.imagens = imagens;
+    }
+
+    public List<ImagemProduto> getImagens() {
+        return imagens;
+    }
+
+
 
     public void setMarcaProduto(MarcaProduto marcaProduto) {
         this.marcaProduto = marcaProduto;
@@ -245,25 +250,21 @@ public class Produto implements Serializable {
     }
 
 
-    public Integer getQtdEstoque() {
-        return QtdEstoque;
-    }
-
-
-    public void setQtdEstoque(Integer qtdEstoque) {
-        QtdEstoque = qtdEstoque;
-    }
-
-
     public Integer getQtdeAlertaEstoque() {
-        return QtdeAlertaEstoque;
+        return qtdeAlertaEstoque;
     }
-
 
     public void setQtdeAlertaEstoque(Integer qtdeAlertaEstoque) {
-        QtdeAlertaEstoque = qtdeAlertaEstoque;
+        this.qtdeAlertaEstoque = qtdeAlertaEstoque;
     }
 
+    public Integer getQtdEstoque() {
+        return qtdEstoque;
+    }
+
+    public void setQtdEstoque(Integer qtdEstoque) {
+        this.qtdEstoque = qtdEstoque;
+    }
 
     public String getLinkYoutube() {
         return linkYoutube;
