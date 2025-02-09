@@ -2,6 +2,7 @@ package com.meuprojeto.model;
 
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 
 @Entity
@@ -15,19 +16,22 @@ public class FormaPagamento  implements Serializable {
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq_forma_pagamento")
     private Long id;
 
+    @NotNull(message = "Descrição deve ser informada")
     @Column(nullable = false)
     private String descricao;
 
-    @ManyToOne(targetEntity = Pessoa.class)
+    @NotNull(message = "A empresa deve ser informada")
+    @ManyToOne(targetEntity = PessoaJuridica.class)
     @JoinColumn(name = "empresa_id", nullable = false,
             foreignKey = @ForeignKey(value = ConstraintMode.CONSTRAINT, name = "empresa_id_fk"))
-    private Pessoa empresa;
+    private PessoaJuridica empresa;
 
-    public Pessoa getEmpresa() {
+
+    public PessoaJuridica getEmpresa() {
         return empresa;
     }
 
-    public void setEmpresa(Pessoa empresa) {
+    public void setEmpresa(PessoaJuridica empresa) {
         this.empresa = empresa;
     }
 
