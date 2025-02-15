@@ -11,6 +11,4 @@ import org.springframework.transaction.annotation.Transactional;
 public interface Vd_Cp_loja_Virt_Repository extends JpaRepository<VendaCompraLojaVirtual, Long> {
 
 
-
-
 }
