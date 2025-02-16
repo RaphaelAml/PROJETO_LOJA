@@ -91,6 +91,16 @@ public class VendaCompraLojaVirtual implements Serializable {
     private List<ItemVendaLoja> itemVendaLojas = new ArrayList<ItemVendaLoja>();
 
 
+    private Boolean excluido = Boolean.FALSE;
+
+    public Boolean getExcluido() {
+        return excluido;
+    }
+
+    public void setExcluido(Boolean excluido) {
+        this.excluido = excluido;
+    }
+
     public List<ItemVendaLoja> getItemVendaLojas() {
         return itemVendaLojas;
     }

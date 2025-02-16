@@ -1,6 +1,8 @@
 package com.meuprojeto.model;
 
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -108,6 +110,7 @@ public class Produto implements Serializable {
     private MarcaProduto marcaProduto = new MarcaProduto();
 
 
+    @JsonBackReference
     @OneToMany(mappedBy = "produto", orphanRemoval = true, cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<ImagemProduto> imagens = new ArrayList<ImagemProduto>();
 
