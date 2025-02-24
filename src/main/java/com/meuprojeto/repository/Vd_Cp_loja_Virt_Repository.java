@@ -27,19 +27,22 @@ public interface Vd_Cp_loja_Virt_Repository extends JpaRepository<VendaCompraLoj
 
 
     @Query(value="select distinct(i.vendaCompraLojaVirtual) from ItemVendaLoja i "
-            + " where i.vendaCompraLojaVirtual.excluido = false and upper(trim(i.vendaCompraLojaVirtual.pessoa.nome)) like %?1%")
+            + " where i.vendaCompraLojaVirtual.excluido = false and " +
+            "upper(trim(i.vendaCompraLojaVirtual.pessoa.nome)) like %?1%")
     List<VendaCompraLojaVirtual> vendaPorNomeCliente(String nomepessoa);
 
 
     @Query(value="select distinct(i.vendaCompraLojaVirtual) from ItemVendaLoja i "
-            + " where i.vendaCompraLojaVirtual.excluido = false and upper(trim(i.vendaCompraLojaVirtual.enderecoCobranca.ruaLogra)) "
+            + " where i.vendaCompraLojaVirtual.excluido = false and " +
+            "upper(trim(i.vendaCompraLojaVirtual.enderecoCobranca.ruaLogradouro)) "
             + " like %?1%")
     List<VendaCompraLojaVirtual> vendaPorEndereCobranca(String enderecocobranca);
 
 
 
     @Query(value="select distinct(i.vendaCompraLojaVirtual) from ItemVendaLoja i "
-            + " where i.vendaCompraLojaVirtual.excluido = false and upper(trim(i.vendaCompraLojaVirtual.enderecoEntrega.ruaLogra)) "
+            + " where i.vendaCompraLojaVirtual.excluido = false and " +
+            "upper(trim(i.vendaCompraLojaVirtual.enderecoEntrega.ruaLogradouro)) "
             + " like %?1%")
     List<VendaCompraLojaVirtual> vendaPorEnderecoEntrega(String enderecoentrega);
 
