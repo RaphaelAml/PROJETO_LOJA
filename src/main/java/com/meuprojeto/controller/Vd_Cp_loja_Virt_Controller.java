@@ -12,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -121,29 +122,29 @@ public class Vd_Cp_loja_Virt_Controller {
 
     @ResponseBody
     @DeleteMapping(value = "**/deleteVendaTotalBanco/{idVenda}")
-    public  ResponseEntity<String> deleteVendaTotalBanco(@PathVariable(value = "idVenda") Long idVenda) {
+    public ResponseEntity<String> deleteVendaTotalBanco(@PathVariable(value = "idVenda") Long idVenda) {
 
         vendaService.exclusaoTotalVendaBanco(idVenda);
 
-        return new ResponseEntity<String>("Venda excluida com sucesso.",HttpStatus.OK);
+        return new ResponseEntity<String>("Venda excluida com sucesso.", HttpStatus.OK);
     }
 
     @ResponseBody
     @DeleteMapping(value = "**/deleteVendaTotalBanco2/{idVenda}")
-    public  ResponseEntity<String> deleteVendaTotalBanco2(@PathVariable(value = "idVenda") Long idVenda) {
+    public ResponseEntity<String> deleteVendaTotalBanco2(@PathVariable(value = "idVenda") Long idVenda) {
 
         vendaService.exclusaoTotalVendaBanco2(idVenda);
 
-        return new ResponseEntity<String>("Venda excluida logicamente com sucesso.",HttpStatus.OK);
+        return new ResponseEntity<String>("Venda excluida logicamente com sucesso.", HttpStatus.OK);
     }
 
     @ResponseBody
     @PutMapping(value = "**/ativaRegistroVendaBanco/{idVenda}")
-    public  ResponseEntity<String> ativaRegistroVendaBanco(@PathVariable(value = "idVenda") Long idVenda) {
+    public ResponseEntity<String> ativaRegistroVendaBanco(@PathVariable(value = "idVenda") Long idVenda) {
 
         vendaService.ativaRegistroVendaBanco(idVenda);
 
-        return new ResponseEntity<String>("Venda ativada com sucesso.",HttpStatus.OK);
+        return new ResponseEntity<String>("Venda ativada com sucesso.", HttpStatus.OK);
     }
 
     @ResponseBody
@@ -157,18 +158,15 @@ public class Vd_Cp_loja_Virt_Controller {
 
         if (tipoconsulta.equalsIgnoreCase("POR_ID_PROD")) {
 
-            compraLojaVirtual =   vd_Cp_Loja_virt_repository.vendaPorProduto(Long.parseLong(valor));
+            compraLojaVirtual = vd_Cp_Loja_virt_repository.vendaPorProduto(Long.parseLong(valor));
 
-        }else if (tipoconsulta.equalsIgnoreCase("POR_NOME_PROD")) {
+        } else if (tipoconsulta.equalsIgnoreCase("POR_NOME_PROD")) {
             compraLojaVirtual = vd_Cp_Loja_virt_repository.vendaPorNomeProduto(valor.toUpperCase().trim());
-        }
-        else if (tipoconsulta.equalsIgnoreCase("POR_NOME_CLIENTE")) {
+        } else if (tipoconsulta.equalsIgnoreCase("POR_NOME_CLIENTE")) {
             compraLojaVirtual = vd_Cp_Loja_virt_repository.vendaPorNomeCliente(valor.toUpperCase().trim());
-        }
-        else if (tipoconsulta.equalsIgnoreCase("POR_ENDERECO_COBRANCA")) {
+        } else if (tipoconsulta.equalsIgnoreCase("POR_ENDERECO_COBRANCA")) {
             compraLojaVirtual = vd_Cp_Loja_virt_repository.vendaPorEndereCobranca(valor.toUpperCase().trim());
-        }
-        else if (tipoconsulta.equalsIgnoreCase("POR_ENDERECO_ENTREGA")) {
+        } else if (tipoconsulta.equalsIgnoreCase("POR_ENDERECO_ENTREGA")) {
             compraLojaVirtual = vd_Cp_Loja_virt_repository.vendaPorEnderecoEntrega(valor.toUpperCase().trim());
         }
 
@@ -210,6 +208,23 @@ public class Vd_Cp_loja_Virt_Controller {
         return new ResponseEntity<List<VendaCompraLojaVirtualDTO>>(compraLojaVirtualDTOList, HttpStatus.OK);
     }
 
+
+    @ResponseBody
+    @GetMapping(value = "**/consultaVendaDinamicaFaixaData/{data1}/{data2}")
+    public ResponseEntity<List<VendaCompraLojaVirtualDTO>>
+    consultaVendaDinamicaFaixaData(
+            @PathVariable("data1") String data1,
+            @PathVariable("data2") String data2) throws ParseException {
+
+        List<VendaCompraLojaVirtual> compraLojaVirtual = null;
+
+        compraLojaVirtual = vendaService.consultaVendaFaixaData(data1, data2);
+
+
+        if (compraLojaVirtual == null) {
+            compraLojaVirtual = new ArrayList<VendaCompraLojaVirtual>();
+        }
+    }
 
 
     @ResponseBody
