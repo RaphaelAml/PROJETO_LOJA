@@ -32,6 +32,21 @@ public interface Vd_Cp_loja_Virt_Repository extends JpaRepository<VendaCompraLoj
             "upper(trim(i.vendaCompraLojaVirtual.pessoa.nome)) like %?1%")
     List<VendaCompraLojaVirtual> vendaPorNomeCliente(String nomepessoa);
 
+    @Query(value="select distinct(i.vendaCompraLojaVirtual) from ItemVendaLoja i "
+            + " where i.vendaCompraLojaVirtual.excluido = false and " +
+            "i.vendaCompraLojaVirtual.pessoa.id = ?1")
+    List<VendaCompraLojaVirtual> vendaPorCliente(Long idCliente);
+
+//    @Query(value="select distinct(i.vendaCompraLojaVirtual) from ItemVendaLoja i "
+//            + " where i.vendaCompraLojaVirtual.excluido = false and " +
+//            "upper(trim(i.vendaCompraLojaVirtual.pessoa.nome)) like %?1% and i.vendaCompraLojaVirtual.pessoa.cpf = ?2")
+//    List<VendaCompraLojaVirtual> vendaPorNomeClienteECpf(String nomepessoa, String cpf);
+//
+//    @Query(value="select distinct(i.vendaCompraLojaVirtual) from ItemVendaLoja i "
+//            + " where i.vendaCompraLojaVirtual.excluido = false and " +
+//            "upper(trim(i.vendaCompraLojaVirtual.pessoa.cpf)) like %?1%")
+//    List<VendaCompraLojaVirtual> vendaPorCpfCliente(String cpf);
+
 
     @Query(value="select distinct(i.vendaCompraLojaVirtual) from ItemVendaLoja i "
             + " where i.vendaCompraLojaVirtual.excluido = false and " +
