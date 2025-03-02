@@ -2,8 +2,10 @@ package com.meuprojeto.controller;
 
 
 import com.meuprojeto.model.NotaFiscalCompra;
+import com.meuprojeto.model.NotaFiscalVenda;
 import com.meuprojeto.projetoloja.ExcecaoMsgErro;
 import com.meuprojeto.repository.NotaFiscalCompraRepository;
+import com.meuprojeto.repository.NotaFiscalVendaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,6 +25,8 @@ public class NotaFiscalCompraController {
 
     @Autowired
     private NotaFiscalCompraRepository notaFiscalCompraRepository;
+    @Autowired
+    private NotaFiscalVendaRepository notaFiscalVendaRepository;
 
 
     @ResponseBody
@@ -87,6 +91,38 @@ public class NotaFiscalCompraController {
 
         return new ResponseEntity<NotaFiscalCompra>(notaFiscalCompra, HttpStatus.OK);
     }
+
+
+    @ResponseBody
+    @GetMapping(value = "**/obterNotaFiscalCompraDaVenda/{idvenda}")
+    public ResponseEntity<List<NotaFiscalVenda>> obterNotaFiscalCompraDaVenda(@PathVariable("idvenda") Long idvenda)
+            throws ExcecaoMsgErro {
+
+        List<NotaFiscalVenda> notaFiscalCompra = notaFiscalVendaRepository.buscarNotaPorVenda(idvenda);
+
+        if (notaFiscalCompra == null) {
+            throw new ExcecaoMsgErro("Não encontrou Nota Fiscal de venda com código da venda: " + idvenda);
+        }
+
+        return new ResponseEntity<List<NotaFiscalVenda>>(notaFiscalCompra, HttpStatus.OK);
+    }
+
+    @ResponseBody
+    @GetMapping(value = "**/obterNotaFiscalCompraDaVendaUnico/{idvenda}")
+    public ResponseEntity<NotaFiscalVenda> obterNotaFiscalCompraDaVendaUnico(@PathVariable("idvenda") Long idvenda)
+            throws ExcecaoMsgErro {
+
+        NotaFiscalVenda notaFiscalCompra = notaFiscalVendaRepository.buscarNotaPorVendaUnica(idvenda);
+
+        if (notaFiscalCompra == null) {
+            throw new ExcecaoMsgErro("Não encontrou Nota Fiscal de venda com código da venda: " + idvenda);
+        }
+
+        return new ResponseEntity<NotaFiscalVenda>(notaFiscalCompra, HttpStatus.OK);
+    }
+
+
+
 
     @ResponseBody
     @GetMapping(value = "**/buscarNotaFiscalPorDesc/{desc}")
