@@ -3,6 +3,7 @@ package com.meuprojeto.model;
 
 
 import javax.persistence.*;
+import javax.validation.constraints.NotEmpty;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
@@ -18,13 +19,16 @@ public class CupDesc implements Serializable {
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq_cup_desc")
     private Long id;
 
+    @NotEmpty(message = "Informe o codigo do desconto")
     @Column(nullable = false)
     private String codDesc;
+
 
     private BigDecimal valorRealDesc;
 
     private BigDecimal valorPorcentDesc;
 
+    @NotEmpty(message = "Informar a data de validade do cupom")
     @Column(nullable = false)
     @Temporal(TemporalType.DATE)
     private Date dataValidadeCupom;
