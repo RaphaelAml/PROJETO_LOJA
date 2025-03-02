@@ -2,18 +2,23 @@ package com.meuprojeto.controller;
 
 import com.meuprojeto.dto.ItemVendaDTO;
 import com.meuprojeto.dto.VendaCompraLojaVirtualDTO;
+import com.meuprojeto.enums.StatusContaReceber;
 import com.meuprojeto.model.*;
 import com.meuprojeto.projetoloja.ExcecaoMsgErro;
 import com.meuprojeto.repository.*;
+import com.meuprojeto.service.ServiceSendEmail;
 import com.meuprojeto.service.VendaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.mail.MessagingException;
 import javax.validation.Valid;
+import java.io.UnsupportedEncodingException;
 import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 
@@ -38,11 +43,16 @@ public class Vd_Cp_loja_Virt_Controller {
     @Autowired
     private VendaService vendaService;
 
+    @Autowired
+    private ContaReceberRepository contaReceberRepository;
+
+    @Autowired
+    private ServiceSendEmail serviceSendEmail;
 
     @ResponseBody
     @PostMapping(value = "**/salvarVendaLoja")
     public ResponseEntity<VendaCompraLojaVirtualDTO> salvarVendaLoja(
-            @RequestBody @Valid VendaCompraLojaVirtual vendaCompraLojaVirtual) throws ExcecaoMsgErro {
+            @RequestBody @Valid VendaCompraLojaVirtual vendaCompraLojaVirtual) throws ExcecaoMsgErro, MessagingException, UnsupportedEncodingException {
 
 
         vendaCompraLojaVirtual.getPessoa().setEmpresa(vendaCompraLojaVirtual.getEmpresa());
@@ -117,6 +127,32 @@ public class Vd_Cp_loja_Virt_Controller {
 
             compraLojaVirtualDTO.getItemVendaLoja().add(itemVendaDTO);
         }
+
+            ContaReceber contaReceber = new ContaReceber();
+            contaReceber.setDescricao("Venda da loja virtual nº: " + vendaCompraLojaVirtual.getId());
+            contaReceber.setDt_Pagamento(Calendar.getInstance().getTime());
+            contaReceber.setDt_Vencimento(Calendar.getInstance().getTime());
+            contaReceber.setEmpresa(vendaCompraLojaVirtual.getEmpresa());
+            contaReceber.setPessoa(vendaCompraLojaVirtual.getPessoa());
+            contaReceber.setStatus(StatusContaReceber.QUITADA);
+            contaReceber.setValorDesconto(vendaCompraLojaVirtual.getValorDesconto());
+            contaReceber.setValorTotal(vendaCompraLojaVirtual.getValorTotal());
+
+            contaReceberRepository.saveAndFlush(contaReceber);
+
+            //Email do comprador
+            StringBuilder msgEmail = new StringBuilder();
+            msgEmail.append("Olá, ").append(pessoaFisica.getNome()).append("</br>");
+            msgEmail.append("Voce realizou uma compra de n°: ").append(vendaCompraLojaVirtual.getId()).append("<br>");
+            msgEmail.append("Na loja ").append(vendaCompraLojaVirtual.getEmpresa().getNomeFantasia());
+
+            serviceSendEmail.enviarEmailHtml("Compra Realizada", msgEmail.toString(), pessoaFisica.getEmail());
+
+            //Email do vendedor
+            msgEmail = new StringBuilder();
+            msgEmail.append("Voce realizou uma venda de n°: ").append(vendaCompraLojaVirtual.getId());
+            serviceSendEmail.enviarEmailHtml("Venda realizada", msgEmail.toString(), vendaCompraLojaVirtual.getEmpresa().getEmail());
+
         return new ResponseEntity<VendaCompraLojaVirtualDTO>(compraLojaVirtualDTO, HttpStatus.OK);
     }
 
