@@ -1,6 +1,7 @@
 package com.meuprojeto.controller;
 
 
+import com.meuprojeto.dto.ObjetoRelatorioStatusCompraDTO;
 import com.meuprojeto.dto.ObjetoRequisicaoRelatorioProdutoAlertaEstoque;
 import com.meuprojeto.dto.ObjetoRequisicaoRelatorioProdutoCompraNotaFiscalDTO;
 import  com.meuprojeto.model.NotaFiscalCompra;
@@ -35,6 +36,20 @@ public class NotaFiscalCompraController {
 
     @Autowired
     private NotaFiscalCompraService notaFiscalCompraService;
+
+    @ResponseBody
+    @PostMapping(value = "**/relatorioStatusCompra")
+    public ResponseEntity<List<ObjetoRelatorioStatusCompraDTO>> relatorioStatusCompra
+            (@Valid @RequestBody ObjetoRelatorioStatusCompraDTO objetoRelatorioStatusCompraDTO) {
+
+
+        List<ObjetoRelatorioStatusCompraDTO> retorno = new ArrayList<>();
+
+        retorno = notaFiscalCompraService.relatorioStatusVendaLojaVirtual(objetoRelatorioStatusCompraDTO);
+
+        return new ResponseEntity<List<ObjetoRelatorioStatusCompraDTO>>(retorno, HttpStatus.OK);
+
+    }
 
     @ResponseBody
     @PostMapping(value = "**/relatorioProdutoCompradoNotaFiscal")
