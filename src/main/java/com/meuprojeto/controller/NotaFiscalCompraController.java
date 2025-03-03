@@ -1,11 +1,13 @@
 package com.meuprojeto.controller;
 
 
-import com.meuprojeto.model.NotaFiscalCompra;
+import com.meuprojeto.dto.ObjetoRequisicaoRelatorioProdutoCompraNotaFiscalDTO;
+import  com.meuprojeto.model.NotaFiscalCompra;
 import com.meuprojeto.model.NotaFiscalVenda;
 import com.meuprojeto.projetoloja.ExcecaoMsgErro;
 import com.meuprojeto.repository.NotaFiscalCompraRepository;
 import com.meuprojeto.repository.NotaFiscalVendaRepository;
+import com.meuprojeto.service.NotaFiscalCompraService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,6 +18,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.ArrayList;
 import java.util.List;
 import javax.validation.Valid;
 
@@ -27,6 +31,25 @@ public class NotaFiscalCompraController {
     private NotaFiscalCompraRepository notaFiscalCompraRepository;
     @Autowired
     private NotaFiscalVendaRepository notaFiscalVendaRepository;
+
+    @Autowired
+    private NotaFiscalCompraService notaFiscalCompraService;
+
+    @ResponseBody
+    @PostMapping(value = "**/relatorioProdutoCompradoNotaFiscal")
+    public ResponseEntity<List<ObjetoRequisicaoRelatorioProdutoCompraNotaFiscalDTO>>
+    relatorioProdutoCompradoNotaFiscal(@Valid @RequestBody ObjetoRequisicaoRelatorioProdutoCompraNotaFiscalDTO
+                                                                        objetoRequisicaoRelatorioProdutoCompraNotaFiscalDTO){
+
+        List<ObjetoRequisicaoRelatorioProdutoCompraNotaFiscalDTO> retorno = new
+                ArrayList<ObjetoRequisicaoRelatorioProdutoCompraNotaFiscalDTO>();
+
+
+        retorno = notaFiscalCompraService.gerarRelatorioProdutoCompraNota(objetoRequisicaoRelatorioProdutoCompraNotaFiscalDTO);
+
+
+        return new ResponseEntity<List<ObjetoRequisicaoRelatorioProdutoCompraNotaFiscalDTO>>(retorno, HttpStatus.OK);
+    }
 
 
     @ResponseBody
