@@ -1,6 +1,8 @@
 package com.meuprojeto.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.meuprojeto.enums.StatusVendaLojaVirtual;
+
 import javax.persistence.*;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
@@ -81,6 +83,11 @@ public class VendaCompraLojaVirtual implements Serializable {
     @JoinColumn(name = "empresa_id", nullable = false,
             foreignKey = @ForeignKey(value = ConstraintMode.CONSTRAINT, name = "empresa_id_fk"))
     private PessoaJuridica empresa;
+
+    @NotNull(message = "Status da venda deve ser informado")
+    @Column(nullable = false)
+    @Enumerated(EnumType.STRING)
+    private StatusVendaLojaVirtual statusVendaLojaVirtual;
 
 
     @OneToMany(mappedBy = "vendaCompraLojaVirtual", orphanRemoval = true, cascade = CascadeType.ALL, fetch = FetchType.EAGER)
