@@ -1,6 +1,7 @@
 package com.meuprojeto.controller;
 
 
+import com.meuprojeto.dto.ObjetoRequisicaoRelatorioProdutoAlertaEstoque;
 import com.meuprojeto.dto.ObjetoRequisicaoRelatorioProdutoCompraNotaFiscalDTO;
 import  com.meuprojeto.model.NotaFiscalCompra;
 import com.meuprojeto.model.NotaFiscalVenda;
@@ -49,6 +50,22 @@ public class NotaFiscalCompraController {
 
 
         return new ResponseEntity<List<ObjetoRequisicaoRelatorioProdutoCompraNotaFiscalDTO>>(retorno, HttpStatus.OK);
+    }
+
+    @ResponseBody
+    @PostMapping(value = "**/relatorioProdutoAlertaEstoque")
+    public ResponseEntity<List<ObjetoRequisicaoRelatorioProdutoAlertaEstoque>>
+    relatorioProdutoAlertaEstoque(@Valid @RequestBody ObjetoRequisicaoRelatorioProdutoAlertaEstoque
+                                               objetoRequisicaoRelatorioProdutoAlertaEstoque){
+
+        List<ObjetoRequisicaoRelatorioProdutoAlertaEstoque> retorno = new
+                ArrayList<ObjetoRequisicaoRelatorioProdutoAlertaEstoque>();
+
+
+        retorno = notaFiscalCompraService.gerarRelatorioAlertaEstoque(objetoRequisicaoRelatorioProdutoAlertaEstoque);
+
+
+        return new ResponseEntity<List<ObjetoRequisicaoRelatorioProdutoAlertaEstoque>>(retorno, HttpStatus.OK);
     }
 
 
