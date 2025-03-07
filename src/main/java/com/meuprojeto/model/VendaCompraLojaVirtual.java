@@ -94,7 +94,14 @@ public class VendaCompraLojaVirtual implements Serializable {
     private List<ItemVendaLoja> itemVendaLojas = new ArrayList<ItemVendaLoja>();
 
 
+    private String codigoEtiqueta;
+
+    private String urlImprimeEtiqueta;
+
     private Boolean excluido = Boolean.FALSE;
+
+    /*Frete que foi escolhido pelo cliente no momento da compra*/
+    private String servicoTransportadora;
 
     public Boolean getExcluido() {
         return excluido;

@@ -416,6 +416,9 @@ public class Vd_Cp_loja_Virt_Controller {
         return new ResponseEntity<List<VendaCompraLojaVirtualDTO>>(compraLojaVirtualDTOList, HttpStatus.OK);
     }
 
+    
+
+
     @ResponseBody
     @PostMapping(value = "**/consultarFreteLojaVirtual")
     public ResponseEntity<List<EmpresaTransporteDTO>>
