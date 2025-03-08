@@ -2,6 +2,7 @@ package com.meuprojeto.model;
 
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.meuprojeto.enums.TipoEndereco;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
@@ -53,6 +54,20 @@ public abstract class Pessoa implements Serializable {
             foreignKey = @ForeignKey(value = ConstraintMode.CONSTRAINT, name = "empresa_id_fk"))
     private Pessoa empresa;
 
+
+    public Endereco enderecoEntrega() {
+
+        Endereco enderecoReturn = null;
+
+        for (Endereco endereco : enderecos) {
+            if (endereco.getTipoEndereco().name().equals(TipoEndereco.ENTREGA.name())) {
+                enderecoReturn = endereco;
+                break;
+            }
+        }
+
+        return enderecoReturn;
+    }
 
 
 

@@ -38,6 +38,9 @@ public class Endereco implements Serializable {
     @Column(nullable = false)
     private String cidade;
 
+    @Column(nullable = false)
+    private String estado;
+
     @JsonIgnore
     @ManyToOne(targetEntity = Pessoa.class)
     @JoinColumn(name = "pessoa_id", nullable = false, foreignKey = @ForeignKey(value = ConstraintMode.CONSTRAINT, name = "pessoa_fk"))
@@ -139,6 +142,14 @@ public class Endereco implements Serializable {
 
     public void setPessoa(Pessoa pessoa) {
         this.pessoa = pessoa;
+    }
+
+    public String getEstado() {
+        return estado;
+    }
+
+    public void setEstado(String estado) {
+        this.estado = estado;
     }
 
     @Override

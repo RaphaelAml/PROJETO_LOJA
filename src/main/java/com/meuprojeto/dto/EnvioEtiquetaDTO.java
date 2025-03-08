@@ -4,67 +4,95 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+
 public class EnvioEtiquetaDTO implements Serializable {
+
 
     private static final long serialVersionUID = 1L;
 
     private String service;
     private String agency;
 
-    private ToEnvioEtiquetaDTO toEnvioEtiquetaDTO;
 
-    private FromEnvioEtiquetaDTO fromEnvioEtiquetaDTO;
+    private FromEnvioEtiquetaDTO from = new FromEnvioEtiquetaDTO();
 
-    List<ProductsEnvioEtiquetaDTO> producsts = new ArrayList<ProductsEnvioEtiquetaDTO>();
 
-    List<VolumesEnvioEtiquetaDTO> volumes = new ArrayList<VolumesEnvioEtiquetaDTO>();
+    private ToEnvioEtiquetaDTO to = new ToEnvioEtiquetaDTO();
+
+
+    private List<ProductsEnvioEtiquetaDTO> products = new ArrayList<ProductsEnvioEtiquetaDTO>();
+
+
+    private List<VolumesEnvioEtiquetaDTO> volumes = new ArrayList<VolumesEnvioEtiquetaDTO>();
+
+    private OptionsEnvioEtiquetaDTO options = new OptionsEnvioEtiquetaDTO();
+
+    public void setOptions(OptionsEnvioEtiquetaDTO options) {
+        this.options = options;
+    }
+    public OptionsEnvioEtiquetaDTO getOptions() {
+        return options;
+    }
 
 
     public String getService() {
         return service;
     }
 
+
     public void setService(String service) {
         this.service = service;
     }
 
-    public String getAgency() {
-        return agency;
+
+    public FromEnvioEtiquetaDTO getFrom() {
+        return from;
     }
 
-    public void setAgency(String agency) {
-        this.agency = agency;
+
+    public void setFrom(FromEnvioEtiquetaDTO from) {
+        this.from = from;
     }
 
-    public ToEnvioEtiquetaDTO getToEnvioEtiquetaDTO() {
-        return toEnvioEtiquetaDTO;
+
+    public ToEnvioEtiquetaDTO getTo() {
+        return to;
     }
 
-    public void setToEnvioEtiquetaDTO(ToEnvioEtiquetaDTO toEnvioEtiquetaDTO) {
-        this.toEnvioEtiquetaDTO = toEnvioEtiquetaDTO;
+
+    public void setTo(ToEnvioEtiquetaDTO to) {
+        this.to = to;
     }
 
-    public FromEnvioEtiquetaDTO getFromEnvioEtiquetaDTO() {
-        return fromEnvioEtiquetaDTO;
+
+    public List<ProductsEnvioEtiquetaDTO> getProducts() {
+        return products;
     }
 
-    public void setFromEnvioEtiquetaDTO(FromEnvioEtiquetaDTO fromEnvioEtiquetaDTO) {
-        this.fromEnvioEtiquetaDTO = fromEnvioEtiquetaDTO;
+
+    public void setProducts(List<ProductsEnvioEtiquetaDTO> products) {
+        this.products = products;
     }
 
-    public List<ProductsEnvioEtiquetaDTO> getProducsts() {
-        return producsts;
-    }
-
-    public void setProducsts(List<ProductsEnvioEtiquetaDTO> producsts) {
-        this.producsts = producsts;
-    }
 
     public List<VolumesEnvioEtiquetaDTO> getVolumes() {
         return volumes;
     }
 
+
     public void setVolumes(List<VolumesEnvioEtiquetaDTO> volumes) {
         this.volumes = volumes;
     }
+
+
+    public String getAgency() {
+        return agency;
+    }
+
+
+    public void setAgency(String agency) {
+        this.agency = agency;
+    }
+
+
 }
