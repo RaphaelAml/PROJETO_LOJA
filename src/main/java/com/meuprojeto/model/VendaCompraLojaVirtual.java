@@ -94,8 +94,10 @@ public class VendaCompraLojaVirtual implements Serializable {
     private List<ItemVendaLoja> itemVendaLojas = new ArrayList<ItemVendaLoja>();
 
 
+    @Column(name = "codigo_etiqueta")
     private String codigoEtiqueta;
 
+    @Column(name = "url_imprimi_etiqueta")
     private String urlImprimeEtiqueta;
 
     private Boolean excluido = Boolean.FALSE;

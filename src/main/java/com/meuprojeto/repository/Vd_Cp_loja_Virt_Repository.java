@@ -2,6 +2,7 @@ package com.meuprojeto.repository;
 
 import com.meuprojeto.model.VendaCompraLojaVirtual;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -69,6 +70,11 @@ public interface Vd_Cp_loja_Virt_Repository extends JpaRepository<VendaCompraLoj
     List<VendaCompraLojaVirtual> consultaVendaFaixaData(Date data1, Date data2);
 
 
+    @Modifying(flushAutomatically = true)
+    @Query(nativeQuery = true, value = "vd_cp_loja_virt_set codigo_etiqueta = ?1 where id = ?2")
+    void updateEtiqueta(String idEtiqueta, Long id);
 
-
+    @Modifying(flushAutomatically = true)
+    @Query(nativeQuery = true, value = "vd_cp_loja_virt_set url_imprimi_etiqueta = ?1 where id = ?2")
+    void updateURLEtiqueta(String urlEtiqueta, Long id);
 }

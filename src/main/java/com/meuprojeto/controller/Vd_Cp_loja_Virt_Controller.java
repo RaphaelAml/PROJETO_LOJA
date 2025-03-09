@@ -563,6 +563,7 @@ public class Vd_Cp_loja_Virt_Controller {
             return new ResponseEntity<String>("Não foi possível realizar a compra da etiqueta", HttpStatus.OK);
         }
 
+
         OkHttpClient clientGe = new OkHttpClient().newBuilder().build();
         okhttp3.MediaType mediaTypeGe =  okhttp3.MediaType.parse("application/json");
         okhttp3.RequestBody bodyGe =  okhttp3.RequestBody.create(mediaTypeGe, "{\n    \"orders\":[\n        \""+idEtiqueta+"\"\n    ]\n}");
@@ -600,7 +601,7 @@ public class Vd_Cp_loja_Virt_Controller {
 
 
         if (!responseIm.isSuccessful()) {
-            return new ResponseEntity<String>("Não foi imprimir a etiqueta.", HttpStatus.OK);
+            return new ResponseEntity<String>("Não foi possivel imprimir a etiqueta.", HttpStatus.OK);
         }
 
         String urlEtiqueta = responseIm.body().string();

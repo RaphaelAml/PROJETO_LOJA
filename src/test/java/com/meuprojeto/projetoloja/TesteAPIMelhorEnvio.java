@@ -64,7 +64,7 @@ public class TesteAPIMelhorEnvio {
                 .addHeader("Accept", "application/json")
                 .addHeader("Content-Type", "application/json")
                 .addHeader("Authorization", "Bearer token")
-                .addHeader("User-Agent", "Aplicação (email para contato técnico)")
+                .addHeader("User-Agent", "suporte@jdevtreinamento.com.br")
                 .build();
 
         Response response = client.newCall(request).execute();
