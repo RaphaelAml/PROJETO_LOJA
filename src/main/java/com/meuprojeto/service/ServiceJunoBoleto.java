@@ -1,17 +1,19 @@
-package com.meuprojeto.security;
+package com.meuprojeto.service;
+
+import java.io.Serializable;
+import javax.ws.rs.core.MediaType;
+import javax.xml.bind.DatatypeConverter;
 
 import com.meuprojeto.model.AccessTokenJunoAPI;
 import com.meuprojeto.repository.AccesTokenJunoRepository;
-import com.meuprojeto.service.HostIgnoringCliente;
-import com.sun.jersey.api.client.Client;
-import com.sun.jersey.api.client.ClientResponse;
-import com.sun.jersey.api.client.WebResource;
+import com.meuprojeto.security.AccessTokenJunoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.ws.rs.core.MediaType;
-import javax.xml.bind.DatatypeConverter;
-import java.io.Serializable;
+import com.sun.jersey.api.client.Client;
+import com.sun.jersey.api.client.ClientResponse;
+import com.sun.jersey.api.client.WebResource;
+
 
 @Service
 public class ServiceJunoBoleto implements Serializable {

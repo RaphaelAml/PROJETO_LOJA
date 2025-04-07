@@ -6,6 +6,7 @@ import com.meuprojeto.model.Endereco;
 import com.meuprojeto.model.PessoaFisica;
 import com.meuprojeto.model.PessoaJuridica;
 import com.meuprojeto.repository.PessoaRepository;
+import com.meuprojeto.service.ServiceJunoBoleto;
 import junit.framework.TestCase;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +25,14 @@ public class TestePessoaUsuario extends TestCase {
 
     @Autowired
     private PessoaRepository pessoaRepository;
+
+    @Autowired
+    private ServiceJunoBoleto serviceJunoBoleto;
+
+    @Test
+    public void testToke() throws Exception{
+        serviceJunoBoleto.obterTokenApiJuno();
+    }
 
     @Test
     public void testCadPessoaJuridica() throws ExcecaoMsgErro {
