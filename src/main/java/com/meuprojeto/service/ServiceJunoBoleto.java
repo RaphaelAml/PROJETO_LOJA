@@ -4,6 +4,7 @@ import java.io.Serializable;
 import javax.ws.rs.core.MediaType;
 import javax.xml.bind.DatatypeConverter;
 
+import com.meuprojeto.enums.ApiTokenIntegracao;
 import com.meuprojeto.model.AccessTokenJunoAPI;
 import com.meuprojeto.repository.AccesTokenJunoRepository;
 import com.meuprojeto.security.AccessTokenJunoService;
@@ -26,6 +27,30 @@ public class ServiceJunoBoleto implements Serializable {
 
     @Autowired
     private AccesTokenJunoRepository accesTokenJunoRepository;
+
+    public String geraChaveBoletoPix() throws Exception {
+
+        AccessTokenJunoAPI accessTokenJunoAPI = this.obterTokenApiJuno();
+
+        Client client = new HostIgnoringCliente("https://api.juno.com.br/").hostIgnoringCliente();
+        WebResource webResource = client.resource("https://api.juno.com.br/pix/keys");
+        //WebResource webResource = client.resource("https://api.juno.com.br/api-integration/pix/keys");
+
+
+        ClientResponse clientResponse = webResource
+                .accept("application/json;charset=UTF-8")
+                .header("Content-Type", "application/json")
+                .header("X-API-Version", 2)
+                .header("X-Resource-Token", ApiTokenIntegracao.TOKEN_PRIVATE_JUNO)
+                .header("Authorization", "Bearer " + accessTokenJunoAPI.getAccess_token())
+                .post(ClientResponse.class, "{ \"type\": \"RANDOM_KEY\" }");
+
+        //.header("X-Idempotency-Key", "chave-boleto-pix")
+        return clientResponse.getEntity(String.class);
+
+
+    }
+
 
     public AccessTokenJunoAPI obterTokenApiJuno() throws Exception {
 
