@@ -1,6 +1,7 @@
 package com.meuprojeto.projetoloja;
 
 import com.meuprojeto.controller.PessoaController;
+import com.meuprojeto.dto.ObjetoPostCarneJuno;
 import com.meuprojeto.enums.TipoEndereco;
 import com.meuprojeto.model.Endereco;
 import com.meuprojeto.model.PessoaFisica;
@@ -31,8 +32,28 @@ public class TestePessoaUsuario extends TestCase {
 
     @Test
     public void testToke() throws Exception{
-        serviceJunoBoleto.obterTokenApiJuno();
+        String valor = serviceJunoBoleto.geraChaveBoletoPix();
+        System.out.println(valor);
     }
+
+
+    @Test
+    public void testeToken() throws Exception {
+
+        ObjetoPostCarneJuno objetoPostCarneJuno = new ObjetoPostCarneJuno();
+        objetoPostCarneJuno.setDescription("Teste de geração de boleto e pix");
+        objetoPostCarneJuno.setEmail("alex.fernando.egidio@gmail.com");
+        objetoPostCarneJuno.setIdVenda(18L);
+        objetoPostCarneJuno.setInstallments("6");
+        objetoPostCarneJuno.setPayerCpfCnpj("05916564937");
+        objetoPostCarneJuno.setPayerName("Alex fernando");
+        objetoPostCarneJuno.setPayerPhone("45999795800");
+        objetoPostCarneJuno.setReference("Venda de venda de loja virtual cod: 18");
+        objetoPostCarneJuno.setTotalAmount("50.00");
+        String valor =	serviceJunoBoleto.gerarCarneApi(objetoPostCarneJuno);
+        System.out.println(valor);
+    }
+
 
     @Test
     public void testCadPessoaJuridica() throws ExcecaoMsgErro {

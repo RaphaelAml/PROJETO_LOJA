@@ -8,7 +8,7 @@ public class Billing implements Serializable {
     private static final long serialVersionUID = 1L;
 
 
-    private String nome;
+    private String name;
     private String document;
     private String email;
     private String phone;
@@ -16,12 +16,12 @@ public class Billing implements Serializable {
 
 
     public String getNome() {
-        return nome;
+        return name;
     }
 
 
-    public void setNome(String nome) {
-        this.nome = nome;
+    public void setName(String name) {
+        this.name = name;
     }
 
 
