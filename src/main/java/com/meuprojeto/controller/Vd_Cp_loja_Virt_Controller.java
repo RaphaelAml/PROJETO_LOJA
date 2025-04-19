@@ -8,6 +8,7 @@ import com.meuprojeto.enums.StatusContaReceber;
 import com.meuprojeto.model.*;
 import com.meuprojeto.projetoloja.ExcecaoMsgErro;
 import com.meuprojeto.repository.*;
+import com.meuprojeto.service.ServiceJunoBoleto;
 import com.meuprojeto.service.ServiceSendEmail;
 import com.meuprojeto.service.VendaService;
 import okhttp3.MediaType;
@@ -63,6 +64,9 @@ public class Vd_Cp_loja_Virt_Controller {
 
     @Autowired
     private JdbcTemplate jdbcTemplate;
+
+    @Autowired
+    private ServiceJunoBoleto serviceJunoBoleto;
 
 
     @ResponseBody
@@ -667,6 +671,14 @@ public class Vd_Cp_loja_Virt_Controller {
         return new ResponseEntity<String>("Sucesso", HttpStatus.OK);
 
     }
+
+    @ResponseBody
+    @PostMapping(value = "**/gerarBoletoPix")
+    public ResponseEntity<String> gerarBoletoPix(@RequestBody @Valid ObjetoPostCarneJuno objetoPostCarneJuno) throws Exception {
+        return new ResponseEntity<String>(serviceJunoBoleto.gerarCarneApi(objetoPostCarneJuno), HttpStatus.OK);
+    }
+
+
 
     @ResponseBody
     @GetMapping(value = "**/cancelaEtiqueta/{idEtiqueta}/{descricao}")
