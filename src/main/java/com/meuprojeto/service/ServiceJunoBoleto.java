@@ -52,6 +52,29 @@ public class ServiceJunoBoleto implements Serializable {
     private BoletoJunoRepository boletoJunoRepository;
 
 
+    public String cancelarBoleto(String code) throws Exception {
+
+        AccessTokenJunoAPI accessTokenJunoAPI = this.obterTokenApiJuno();
+
+        Client client = new HostIgnoringCliente("https://api.juno.com.br/").hostIgnoringCliente();
+        WebResource webResource = client.resource("https://api.juno.com.br/charges/" + code + "/cancelation");
+
+        ClientResponse clientResponse = webResource.accept(MediaType.APPLICATION_JSON)
+                .header("X-Api-Version", 2)
+                .header("X-Resource-Token", ApiTokenIntegracao.TOKEN_PRIVATE_JUNO)
+                .header("Authorization", "Bearer " + accessTokenJunoAPI.getAccess_token())
+                .put(ClientResponse.class);
+
+        if (clientResponse.getStatus() == 204) {
+
+            return "Cancelado com sucesso";
+        }
+
+        return clientResponse.getEntity(String.class);
+
+    }
+
+
     public String gerarCarneApi(ObjetoPostCarneJuno objetoPostCarneJuno) throws Exception {
 
         VendaCompraLojaVirtual vendaCompraLojaVirtual = vd_Cp_Loja_virt_repository.findById(objetoPostCarneJuno.getIdVenda()).get();
@@ -103,7 +126,8 @@ public class ServiceJunoBoleto implements Serializable {
                 objectMapper.enable(DeserializationFeature.ACCEPT_SINGLE_VALUE_AS_ARRAY); /*Converte relacionamento um para muitos dentro de json*/
 
                 BoletoGeradoApiJuno jsonRetornoObj = objectMapper.readValue(stringRetorno,
-                        new TypeReference<BoletoGeradoApiJuno>() {});
+                        new TypeReference<BoletoGeradoApiJuno>() {
+                        });
 
                 int recorrencia = 1;
 
@@ -128,7 +152,7 @@ public class ServiceJunoBoleto implements Serializable {
                     boletoJuno.setRecorrencia(recorrencia);
 
                     boletoJunos.add(boletoJuno);
-                    recorrencia ++;
+                    recorrencia++;
 
                 }
 
@@ -136,21 +160,15 @@ public class ServiceJunoBoleto implements Serializable {
 
                 return boletoJunos.get(0).getLink();
 
-            }else {
+            } else {
                 return stringRetorno;
             }
 
-        }else {
+        } else {
             return "Não exite chave de acesso para a API";
         }
 
     }
-
-
-
-
-
-
 
 
     public String geraChaveBoletoPix() throws Exception {
@@ -181,7 +199,7 @@ public class ServiceJunoBoleto implements Serializable {
 
         AccessTokenJunoAPI accessTokenJunoAPI = accessTokenJunoService.buscaTokenAtivo();
 
-        if (accessTokenJunoAPI == null || (accessTokenJunoAPI != null && accessTokenJunoAPI.expirado()) ) {
+        if (accessTokenJunoAPI == null || (accessTokenJunoAPI != null && accessTokenJunoAPI.expirado())) {
 
             String clienteID = "vi7QZerW09C8JG1o";
             String secretID = "$A_+&ksH}&+2<3VM]1MZqc,F_xif_-Dc";
@@ -210,12 +228,12 @@ public class ServiceJunoBoleto implements Serializable {
                 accessTokenJunoAPI2 = accesTokenJunoRepository.saveAndFlush(accessTokenJunoAPI2);
 
                 return accessTokenJunoAPI2;
-            }else {
+            } else {
                 return null;
             }
 
 
-        }else {
+        } else {
             return accessTokenJunoAPI;
         }
     }

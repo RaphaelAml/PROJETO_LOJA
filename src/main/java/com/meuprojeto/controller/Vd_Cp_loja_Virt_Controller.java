@@ -679,6 +679,11 @@ public class Vd_Cp_loja_Virt_Controller {
     }
 
 
+    @ResponseBody
+    @PostMapping(value = "**/gerarBoletoPix")
+    public ResponseEntity<String> cancelarBoletoPix(@RequestBody @Valid String code) throws Exception {
+        return new ResponseEntity<String>(serviceJunoBoleto.cancelarBoleto(code), HttpStatus.OK);
+    }
 
     @ResponseBody
     @GetMapping(value = "**/cancelaEtiqueta/{idEtiqueta}/{descricao}")
